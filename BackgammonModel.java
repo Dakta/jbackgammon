@@ -26,6 +26,7 @@ public class BackgammonModel<playerOne, playerTwo> {
 
 	// board position
 	// Array of Points<Color>, is an int
+
 	// Builds initial board (constructor, if you will)
 
 	public BackgammonModel() {
@@ -44,7 +45,6 @@ public class BackgammonModel<playerOne, playerTwo> {
 		setColumn(16, 3, black);
 		setColumn(18, 5, black);
 		setColumn(23, 2, white);
-		
 
 	}
 
@@ -61,7 +61,13 @@ public class BackgammonModel<playerOne, playerTwo> {
 	// move piece from board to board
 	// decrement from
 	// increment to
-
+	public void move(int sourcePoint, int destPoint, int colr) {
+		if (color[destPoint] == empty || color[destPoint] == colr) {
+			count[sourcePoint]--;
+			count[destPoint]++;
+		} else {
+		}
+	}
 	// bear piece off
 	// can bear off?
 	// decrement from
