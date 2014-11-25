@@ -68,12 +68,29 @@ public class BackgammonModel {
 	// move piece from board to board
 	// decrement from
 	// increment to
-	public void move(int sourcePoint, int destPoint, int colr) {
-		if (color[destPoint] == empty || color[destPoint] == colr) {
+	public void move(int sourcePoint, int destPoint) {
+		if (color[destPoint] == empty || color[destPoint] == color[sourcePoint]) {
+			// regular move
 			count[sourcePoint]--;
+			color[destPoint] = color[sourcePoint];
+			if (count[sourcePoint] == 0) {
+				color[sourcePoint] = empty;
+			}
 			count[destPoint]++;
-			color[destPoint] = colr;
-		} else {// not sure what to do if the move is illegal
+		} else if (color[destPoint] != empty && color[destPoint] != color[sourcePoint] && count[destPoint] == 1) {
+			// blot other player
+			if (color[destPoint] == white) {
+				white_rail++;
+			} else {
+				black_rail++;
+			}
+			color[destPoint] = color[sourcePoint];
+			count[sourcePoint]--;
+			if (count[sourcePoint] == 0) {
+				color[sourcePoint] = empty;
+			}
+		} else {
+			// illegal move, do nothing
 		}
 	}
 
@@ -125,34 +142,6 @@ public class BackgammonModel {
 			} else {
 				black_home++;
 			}
-		}
-	}
-
-	// blotting
-	// decrement from
-	// increment rail
-
-	// making sure the blotting can happen by checking to see if the colors are
-	// different and the destination count is 1
-	public boolean canBlot(int source, int dest) {
-		if (color[source] != color[dest] && count[dest] == 1) {
-			return true;
-		}
-		return false;
-	}
-
-	// blotting that fucker out
-	public void blotMe(int source, int dest) {
-		int colr = color[dest];
-		if (canBlot(source, dest) == true) {
-			count[dest]--;
-			if (colr == white) {
-				white_rail++;
-			} else {
-				black_rail++;
-			}
-			count[source]--;
-			color[dest] = color[source];
 		}
 	}
 

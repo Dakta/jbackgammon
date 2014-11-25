@@ -165,7 +165,7 @@ public class Backgammon {
 				waitingForSource = false;
 			} else { // Waiting for destination
 				waitingForSource = true;
-				model.move(currentPoint-1, mousePoint()-1, currentPlayer);
+				model.move(currentPoint-1, mousePoint()-1);
 				currentPlayer = currentPlayer == BackgammonModel.black ? BackgammonModel.white : BackgammonModel.black;
 			}
 			while (StdDraw.mousePressed()) {
