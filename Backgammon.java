@@ -74,6 +74,11 @@ public class Backgammon {
 			StdDraw.filledCircle(x+0.5*baseUnit, y, 0.5*baseUnit);
 			x += baseUnit;
 		}
+
+		StdDraw.setPenColor(StdDraw.WHITE);
+		StdDraw.text(10*baseUnit, 10.5*baseUnit, "Current Player");
+		StdDraw.setPenColor(currentPlayer == model.black ? StdDraw.BLACK : StdDraw.WHITE);
+		StdDraw.filledCircle(12.5*baseUnit, 10.5*baseUnit, 0.5*baseUnit);
 		
 		// draw moving piece under mouse
 		drawCurrentPiece();
