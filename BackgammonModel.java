@@ -11,8 +11,6 @@ public class BackgammonModel {
 	static final int empty = 0;
 	static final int white = 1;
 	static final int black = 2;
-	// current player
-	private int currentPlayer;
 
 	// Which point
 	int count[];
@@ -74,6 +72,7 @@ public class BackgammonModel {
 		if (color[destPoint] == empty || color[destPoint] == colr) {
 			count[sourcePoint]--;
 			count[destPoint]++;
+			color[destPoint] = colr;
 		} else {// not sure what to do if the move is illegal
 		}
 	}
