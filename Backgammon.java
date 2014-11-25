@@ -76,6 +76,8 @@ public class Backgammon {
 		}
 		
 		// draw moving piece under mouse
+		drawCurrentPiece();
+		
 		StdDraw.show(40);
 	}
 	
@@ -89,7 +91,14 @@ public class Backgammon {
 	// base circle size
 	private static final int baseUnit = 40;
 
-	public void drawBoard() {
+	private void drawCurrentPiece() {
+		if (!waitingForSource) {
+			StdDraw.setPenColor(currentPlayer == model.black ? StdDraw.BLACK : StdDraw.WHITE);
+			StdDraw.filledCircle(StdDraw.mouseX(), StdDraw.mouseY(), 0.6*baseUnit);
+		}
+	}
+	
+	private void drawBoard() {
 		// Background
 		StdDraw.clear(BLACK);
 		StdDraw.setPenColor(BACKGROUND);
