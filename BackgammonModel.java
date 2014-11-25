@@ -45,6 +45,7 @@ public class BackgammonModel {
 			count[i] = 0;
 			color[i] = empty;
 		}
+		
 		setColumn(0, 2, black);
 		setColumn(5, 5, white);
 		setColumn(7, 3, white);

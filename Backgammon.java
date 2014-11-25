@@ -13,27 +13,52 @@ public class Backgammon {
 		// roll for first
 		
 		// initialize model and play
-		 new Backgammon().draw();
+		 new Backgammon().run();
 	}
 	
 	private BackgammonModel model;
-	private java.awt.Color currentPlayer;
+	private int currentPlayer;
+	private boolean waitingForSource;
+	private int currentPoint;
 	
 	public Backgammon() {
-		this(StdDraw.BLACK);
+		this(BackgammonModel.black);
 	}
 	
-	public Backgammon(java.awt.Color startingPlayer) {
+	public Backgammon(int startingPlayer) {
 		this.model = new BackgammonModel();
 		this.currentPlayer = startingPlayer;
+		this.waitingForSource = true;
+		this.currentPoint = 0;
 	}
 	
 	public void draw() {
 		// draw board
 		drawBoard();
 		// draw pieces
+		int x = 0;
+		int y = 0;
+		for (int i=0; i<model.count.length; i++) {
+			// draw spike
+			double[] xi = {baseUnit*i, 0.5*(baseUnit*i+baseUnit*(i+1)), baseUnit*(i+1)};
+			double[] yi = {0, 5*baseUnit, 0};
+			StdDraw.setPenColor((i%2==0 ? DARK_BROWN : LIGHT_BROWN));
+			StdDraw.filledPolygon(xi, yi);
+			
+			// draw stack of pieces
+			y = 0;
+			for (int c=0; c<model.count[i]; c++) {
+				StdDraw.setPenColor((model.color[i] == model.white ? StdDraw.WHITE : StdDraw.BLACK));
+				StdDraw.filledCircle(x+0.5*baseUnit, y+0.5*baseUnit, 0.5*baseUnit);
+				// move up one
+				y += baseUnit;
+			}
+			// move over one
+			x += baseUnit;
+		}
 		
-		// draw moving piece under mouse if needed
+		// draw moving piece under mouse
+		StdDraw.show();
 	}
 	
 	private static final Color BROWN = new Color(97, 68, 14);
@@ -62,46 +87,36 @@ public class Backgammon {
 	// base circle size
 	private static final int baseUnit = 40;
 
-	public static void drawBoard() {
+	public void drawBoard() {
 		// Background
-		StdDraw.setCanvasSize(16*baseUnit, 12*baseUnit);
-		StdDraw.setXscale(0, 16*baseUnit);
+		StdDraw.setCanvasSize(model.count.length*baseUnit, 12*baseUnit);
+		StdDraw.setXscale(0, model.count.length*baseUnit);
 		StdDraw.setYscale(0, 12*baseUnit);
 		StdDraw.clear(BLACK);
 		StdDraw.setPenColor(BACKGROUND);
-//		StdDraw.filledRectangle(4*baseUnit, 5*baseUnit, 3*baseUnit, 4*baseUnit);
-
-		StdDraw.filledRectangle(16*baseUnit/2, 12*baseUnit/2, 16*baseUnit/2, 12*baseUnit/2);
+		StdDraw.filledRectangle(model.count.length*baseUnit/2, 12*baseUnit/2, model.count.length*baseUnit/2, 12*baseUnit/2);
 		
 		StdDraw.setPenColor(StdDraw.WHITE);
 		StdDraw.filledCircle(0, 0, 0.5*baseUnit);
 		
-//		drawSpike(1, LIGHT_BROWN, DARK_BROWN, quad1PointX, quad1PointY);
-//		drawSpike(1, LIGHT_BROWN, DARK_BROWN, quad2PointX, quad2PointY);
-//		drawSpike(0, LIGHT_BROWN, DARK_BROWN, quad3PointX, quad3PointY);
-//		drawSpike(0, LIGHT_BROWN, DARK_BROWN, quad4PointX, quad4PointY);
-		// Outlines
-		StdDraw.setPenColor(BLACK);
-//		StdDraw.rectangle(1.398, 2, 1.5, 2);
-//		StdDraw.rectangle(4.598, 2, 1.5, 2);
 
-		for (int i=0; i<6; i++) {
-			// draw top spike
-			double[] x = {baseUnit*i, 0.5*(baseUnit*i+baseUnit*(i+1)), baseUnit*(i+1)};
-			double[] y = {0, 5*baseUnit, 0};
-			StdDraw.setPenColor((i%2==0 ? DARK_BROWN : LIGHT_BROWN));
-			StdDraw.filledPolygon(x, y);
-			
-			// draw bottom spike
-			double[] y2 = {12*baseUnit, (7*baseUnit), 12*baseUnit};
-			StdDraw.setPenColor((i%2==0 ? LIGHT_BROWN : DARK_BROWN));
-			StdDraw.filledPolygon(x, y2);
-		}
-		for (int i=0; i<10; i++) {
-			StdDraw.filledCircle(i*2.5*baseUnit, 200, baseUnit);
-		}
+//		for (int i=0; i<6; i++) {
+//			// draw top spike
+//			double[] x = {baseUnit*i, 0.5*(baseUnit*i+baseUnit*(i+1)), baseUnit*(i+1)};
+//			double[] y = {0, 5*baseUnit, 0};
+//			StdDraw.setPenColor((i%2==0 ? DARK_BROWN : LIGHT_BROWN));
+//			StdDraw.filledPolygon(x, y);
+//			
+//			// draw bottom spike
+//			double[] y2 = {12*baseUnit, (7*baseUnit), 12*baseUnit};
+//			StdDraw.setPenColor((i%2==0 ? LIGHT_BROWN : DARK_BROWN));
+//			StdDraw.filledPolygon(x, y2);
+//		}
+//		for (int i=0; i<10; i++) {
+//			StdDraw.filledCircle(i*2.5*baseUnit, 200, baseUnit);
+//		}
 		
-		StdDraw.line(300.0, 0.0, 300.0, 400.0);
+//		StdDraw.line(300.0, 0.0, 300.0, 400.0);
 	}
 
 	public static void drawSpike(int start, Color color1, Color color2,
@@ -131,6 +146,12 @@ public class Backgammon {
 		}
 	}
 	
+	/** Returns the point under the mouse. */
+	public int mousePoint() {
+//		int result = (int) Math.round(StdDraw.mouseX() / model.count.length / 2 + 1);
+		int result = (int) StdDraw.mouseX() / baseUnit + 1;
+		return result;
+	}
 	/** Plays the game. */
 	public void run() {
 //		Deck source = null;
@@ -139,32 +160,17 @@ public class Backgammon {
 			while (!StdDraw.mousePressed()) {
 				// Wait for mouse press
 			}
-//			if (waitingForSource) {
-//				if (StdDraw.mouseY() > 0.8) { // Clicked above
-//					Deck discardPile = model.getDiscardPile();
-//					if (mouseColumn() == 1) {
-//						model.drawNextCard();
-//					} else if ((mouseColumn() == 2) && (discardPile.size() > 0)) {
-//						source = discardPile;
-//						waitingForSource = false;
-//					}
-//				} else { // Clicked on tableau
-//					source = model.getTableau(mouseColumn() - 1);
-//					if (source.size() > 0) {
-//						waitingForSource = false;
-//					}
-//				}
-//			} else { // Waiting for destination
-//				waitingForSource = true;
-//				if (StdDraw.mouseY() > 0.8) { // Clicked above
-//					model.moveToFoundation(source, mouseColumn() - 4);
-//				} else { // Clicked on tableau
-//					model.moveToTableau(source, mouseColumn() - 1);
-//				}
-//			}
-//			while (StdDraw.mousePressed()) {
-//				// Wait for mouse release
-//			}
+			if (waitingForSource) {
+				currentPoint = mousePoint();
+				waitingForSource = false;
+			} else { // Waiting for destination
+				waitingForSource = true;
+				model.move(currentPoint-1, mousePoint()-1, currentPlayer);
+				currentPlayer = currentPlayer == BackgammonModel.black ? BackgammonModel.white : BackgammonModel.black;
+			}
+			while (StdDraw.mousePressed()) {
+				// Wait for mouse release
+			}
 		}
 	}
 
