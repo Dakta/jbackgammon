@@ -168,17 +168,20 @@ public class BackgammonModel<playerOne, playerTwo> {
 		return false;
 	}
 
-	//Two options for this one. Not sure which one will work better
+	//Two options for this one. Not sure which one will work better. The second one 
+	//doesn't depend on the canEnter method
 	public void enterFromRail(int dest, int colr) {
 
 		if (canEnter(dest, colr) == true) {
 			// white
 			if (dest <= 23 && dest >= 18) {
 				count[dest]++;
+				color[dest] = white;
 			}
 			//black
 			if (dest <= 5 && dest >= 0){
 				count[dest]++;
+				color[dest] = black;
 			}
 		}
 		
@@ -204,7 +207,9 @@ public class BackgammonModel<playerOne, playerTwo> {
 	}
 	// has won?
 	// white rail == 15
-	// black rail == 15
+	// black rail == 15 
 	// null
+	
+	
 
 }
