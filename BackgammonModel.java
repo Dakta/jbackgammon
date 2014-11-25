@@ -68,8 +68,44 @@ public class BackgammonModel<playerOne, playerTwo> {
 		} else {
 		}
 	}
-	// bear piece off
+	
 	// can bear off?
+	public boolean yesBear(int color){
+		int sum = 0;
+		
+		if (color == white){
+			for (int i = 0; i <= 5; i++){
+				if (getColor(i) == white){
+					sum += getCount(i);
+				}
+			}
+			sum += white_home;
+		}
+		
+		if (color == black){
+			for (int i = 0; i <= 5; i++){
+				if (getColor(i) == black){
+					sum += getCount(i);
+				}
+			}
+			sum += black_home;
+		}
+		if (sum == 15){
+			return true;
+		}
+		return false;
+	}
+	
+	//returns the color of the occupant of the point
+	public int getColor(int point){
+		return color[point];
+	}
+	//returns the number of pieces in a point
+	public int getCount(int point){
+		return count[point];
+	}
+	
+	// bear piece off
 	// decrement from
 	// increment home
 
