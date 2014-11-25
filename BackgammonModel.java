@@ -19,6 +19,10 @@ public class BackgammonModel<playerOne, playerTwo> {
 	// black rail int
 	int white_rail = 0;
 	int black_rail = 0;
+
+	// white/black HQ counts
+	int white_HQ = 0;
+	int black_HQ = 0;
 	// white home int
 	// black home int
 	int white_home = 0;
@@ -65,53 +69,84 @@ public class BackgammonModel<playerOne, playerTwo> {
 		if (color[destPoint] == empty || color[destPoint] == colr) {
 			count[sourcePoint]--;
 			count[destPoint]++;
-		} else {//not sure what to do if the move is illegal
+		} else {// not sure what to do if the move is illegal
 		}
 	}
-	
+
 	// can bear off?
-	public boolean yesBear(int color){
+	public boolean yesBear(int color) {
 		int sum = 0;
-		
-		if (color == white){
-			for (int i = 0; i <= 5; i++){
-				if (getColor(i) == white){
+
+		if (color == white) {
+			for (int i = 0; i <= 5; i++) {
+				if (getColor(i) == white) {
 					sum += getCount(i);
 				}
 			}
-			sum += white_home;
+			sum += white_HQ;
 		}
-		
-		if (color == black){
-			for (int i = 18; i <= 23; i++){
-				if (getColor(i) == black){
+
+		if (color == black) {
+			for (int i = 18; i <= 23; i++) {
+				if (getColor(i) == black) {
 					sum += getCount(i);
 				}
 			}
-			sum += black_home;
+			sum += black_HQ;
 		}
-		if (sum == 15){
+		if (sum == 15) {
 			return true;
 		}
 		return false;
 	}
-	
-	//returns the color of the occupant of the point
-	public int getColor(int point){
+
+	// returns the color of the occupant of the point
+	public int getColor(int point) {
 		return color[point];
 	}
-	//returns the number of pieces in a point
-	public int getCount(int point){
+
+	// returns the number of pieces in a point
+	public int getCount(int point) {
 		return count[point];
 	}
-	
+
 	// bear piece off
 	// decrement from
 	// increment home
+	public void bearOff(int sourcePoint, int colr) {
+		if (yesBear(colr) == true) {
+			count[sourcePoint]--;
+			if (colr == white) {
+				white_home++;
+			} else {
+				black_home++;
+			}
+		}
+	}
 
 	// blotting
 	// decrement from
 	// increment rail
+	public boolean canBlot(int source, int dest) {
+		if (color[source] != color[dest] && count[dest] == 1) {
+			return true;
+		}
+		return false;
+	}
+
+	public void blotMe(int source, int dest) {
+		int colr = color[dest];
+		if (canBlot(source, dest) == true) {
+			count[dest]--;
+			if (colr == white) {
+				white_rail++;
+			} else {
+				black_rail++;
+			}
+			count[source]--;
+			color[dest] = color[source];
+		}
+	}
 
 	// enter from rail
 	// decrement rail
