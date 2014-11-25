@@ -13,7 +13,7 @@ public class Backgammon {
 		// roll for first
 		
 		// initialize model and play
-		 new Backgammon().run();
+		 new Backgammon().draw();
 	}
 	
 	private BackgammonModel model;
@@ -28,7 +28,7 @@ public class Backgammon {
 		this.currentPlayer = startingPlayer;
 	}
 	
-	private void draw() {
+	public void draw() {
 		// draw board
 		drawBoard();
 		// draw pieces
@@ -59,26 +59,49 @@ public class Backgammon {
 	private static final double[] quad4PointX = { 3.1, 3.325, 3.6 };
 	private static final double[] quad4PointY = { 0.01, 1.5, 0.01 };
 
+	// base circle size
+	private static final int baseUnit = 40;
 
 	public static void drawBoard() {
 		// Background
-		StdDraw.setCanvasSize(600, 400);
-		StdDraw.setXscale(0, 6);
-		StdDraw.setYscale(0, 4);
-		StdDraw.clear(BACKGROUND);
-		StdDraw.setPenColor(BROWN);
-		StdDraw.filledRectangle(1.398, 2, 1.5, 2);
-		StdDraw.filledRectangle(4.598, 2, 1.5, 2);
+		StdDraw.setCanvasSize(16*baseUnit, 12*baseUnit);
+		StdDraw.setXscale(0, 16*baseUnit);
+		StdDraw.setYscale(0, 12*baseUnit);
+		StdDraw.clear(BLACK);
+		StdDraw.setPenColor(BACKGROUND);
+//		StdDraw.filledRectangle(4*baseUnit, 5*baseUnit, 3*baseUnit, 4*baseUnit);
 
-		drawSpike(1, LIGHT_BROWN, DARK_BROWN, quad1PointX, quad1PointY);
-		drawSpike(1, LIGHT_BROWN, DARK_BROWN, quad2PointX, quad2PointY);
-		drawSpike(0, LIGHT_BROWN, DARK_BROWN, quad3PointX, quad3PointY);
-		drawSpike(0, LIGHT_BROWN, DARK_BROWN, quad4PointX, quad4PointY);
+		StdDraw.filledRectangle(16*baseUnit/2, 12*baseUnit/2, 16*baseUnit/2, 12*baseUnit/2);
+		
+		StdDraw.setPenColor(StdDraw.WHITE);
+		StdDraw.filledCircle(0, 0, 0.5*baseUnit);
+		
+//		drawSpike(1, LIGHT_BROWN, DARK_BROWN, quad1PointX, quad1PointY);
+//		drawSpike(1, LIGHT_BROWN, DARK_BROWN, quad2PointX, quad2PointY);
+//		drawSpike(0, LIGHT_BROWN, DARK_BROWN, quad3PointX, quad3PointY);
+//		drawSpike(0, LIGHT_BROWN, DARK_BROWN, quad4PointX, quad4PointY);
 		// Outlines
 		StdDraw.setPenColor(BLACK);
-		StdDraw.rectangle(1.398, 2, 1.5, 2);
-		StdDraw.rectangle(4.598, 2, 1.5, 2);
+//		StdDraw.rectangle(1.398, 2, 1.5, 2);
+//		StdDraw.rectangle(4.598, 2, 1.5, 2);
 
+		for (int i=0; i<6; i++) {
+			// draw top spike
+			double[] x = {baseUnit*i, 0.5*(baseUnit*i+baseUnit*(i+1)), baseUnit*(i+1)};
+			double[] y = {0, 5*baseUnit, 0};
+			StdDraw.setPenColor((i%2==0 ? DARK_BROWN : LIGHT_BROWN));
+			StdDraw.filledPolygon(x, y);
+			
+			// draw bottom spike
+			double[] y2 = {12*baseUnit, (7*baseUnit), 12*baseUnit};
+			StdDraw.setPenColor((i%2==0 ? LIGHT_BROWN : DARK_BROWN));
+			StdDraw.filledPolygon(x, y2);
+		}
+		for (int i=0; i<10; i++) {
+			StdDraw.filledCircle(i*2.5*baseUnit, 200, baseUnit);
+		}
+		
+		StdDraw.line(300.0, 0.0, 300.0, 400.0);
 	}
 
 	public static void drawSpike(int start, Color color1, Color color2,
