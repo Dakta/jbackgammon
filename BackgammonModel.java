@@ -7,7 +7,7 @@ import java.awt.Color;
  * quadrant's side. If you still aren't sure I'll send you a picture.
  * =============================================================================
  */
-public class BackgammonModel<playerOne, playerTwo> {
+public class BackgammonModel {
 
 	static final int empty = 0;
 	static final int white = 1;
@@ -168,8 +168,9 @@ public class BackgammonModel<playerOne, playerTwo> {
 		return false;
 	}
 
-	//Two options for this one. Not sure which one will work better. The second one 
-	//doesn't depend on the canEnter method
+	// Two options for this one. Not sure which one will work better. The second
+	// one
+	// doesn't depend on the canEnter method
 	public void enterFromRail(int dest, int colr) {
 
 		if (canEnter(dest, colr) == true) {
@@ -178,38 +179,45 @@ public class BackgammonModel<playerOne, playerTwo> {
 				count[dest]++;
 				color[dest] = white;
 			}
-			//black
-			if (dest <= 5 && dest >= 0){
+			// black
+			if (dest <= 5 && dest >= 0) {
 				count[dest]++;
 				color[dest] = black;
 			}
 		}
-		
-//		// white
-//		if (colr == white) {
-//			if (dest <= 23 && dest >= 18) {
-//				if (color[dest] == empty) {
-//					count[dest]++;
-//				}
-//			}
-//		}
-//		// black
-//		if (colr == black) {
-//			if (dest <= 5 && dest >= 0) {
-//				if (color[dest] == empty) {
-//					count[dest]++;
-//					color[dest] = colr;
-//				}
-//			}
-//
-//		}
-		
+
+		// // white
+		// if (colr == white) {
+		// if (dest <= 23 && dest >= 18) {
+		// if (color[dest] == empty) {
+		// count[dest]++;
+		// }
+		// }
+		// }
+		// // black
+		// if (colr == black) {
+		// if (dest <= 5 && dest >= 0) {
+		// if (color[dest] == empty) {
+		// count[dest]++;
+		// color[dest] = colr;
+		// }
+		// }
+		//
+		// }
+
 	}
+
 	// has won?
 	// white rail == 15
-	// black rail == 15 
+	// black rail == 15
 	// null
-	
-	
+
+	// takes the home counts and returns if they've won or not
+	public boolean hasWon(int home) {
+		if (home == 15) {
+			return true;
+		}
+		return false;
+	}
 
 }
