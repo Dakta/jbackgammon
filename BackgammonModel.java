@@ -8,7 +8,7 @@ public class BackgammonModel {
 	// array of black's pieces
 	
 	// board position
-	// Array of Points<Color>, which contain List<Color> of Piece<Color>
+	// Array of Points<Color>, extends List<Color> of Piece<Color>
 	
 	// white rail
 	// black rail
