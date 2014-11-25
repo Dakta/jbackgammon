@@ -76,7 +76,7 @@ public class Backgammon {
 		}
 		
 		// draw moving piece under mouse
-		StdDraw.show();
+		StdDraw.show(40);
 	}
 	
 	private static final Color BROWN = new Color(97, 68, 14);
@@ -91,9 +91,6 @@ public class Backgammon {
 
 	public void drawBoard() {
 		// Background
-		StdDraw.setCanvasSize(model.count.length*baseUnit, 12*baseUnit);
-		StdDraw.setXscale(0, model.count.length*baseUnit);
-		StdDraw.setYscale(0, 12*baseUnit);
 		StdDraw.clear(BLACK);
 		StdDraw.setPenColor(BACKGROUND);
 		StdDraw.filledRectangle(model.count.length*baseUnit/2, 12*baseUnit/2, model.count.length*baseUnit/2, 12*baseUnit/2);
@@ -133,13 +130,18 @@ public class Backgammon {
 		int result = (int) StdDraw.mouseX() / baseUnit + 1;
 		return result;
 	}
+	
 	/** Plays the game. */
 	public void run() {
-//		Deck source = null;
+		// only do this once
+		StdDraw.setCanvasSize(model.count.length*baseUnit, 12*baseUnit);
+		StdDraw.setXscale(0, model.count.length*baseUnit);
+		StdDraw.setYscale(0, 12*baseUnit);
+		
 		while (true) {
-			draw();
 			while (!StdDraw.mousePressed()) {
 				// Wait for mouse press
+				draw();
 			}
 			if (waitingForSource) {
 				currentPoint = mousePoint();
@@ -151,6 +153,7 @@ public class Backgammon {
 			}
 			while (StdDraw.mousePressed()) {
 				// Wait for mouse release
+				// We don't support click-drag mechanic
 			}
 		}
 	}
