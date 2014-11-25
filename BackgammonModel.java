@@ -65,7 +65,7 @@ public class BackgammonModel<playerOne, playerTwo> {
 		if (color[destPoint] == empty || color[destPoint] == colr) {
 			count[sourcePoint]--;
 			count[destPoint]++;
-		} else {
+		} else {//not sure what to do if the move is illegal
 		}
 	}
 	
@@ -83,7 +83,7 @@ public class BackgammonModel<playerOne, playerTwo> {
 		}
 		
 		if (color == black){
-			for (int i = 0; i <= 5; i++){
+			for (int i = 18; i <= 23; i++){
 				if (getColor(i) == black){
 					sum += getCount(i);
 				}
