@@ -1,18 +1,28 @@
 package jbackgammon;
 
-public class BackgammonModel {
+import java.awt.Color;
 
-	// current player
+public class BackgammonModel<playerOne ,playerTwo> {
+
 	
+	// current player
+	private Color currentPlayer;
 	// board position
 	// Array of Points<Color>, is an int
 	
+	//Which point
+	int count[];
+	//Type of point
+	int type[];
+	
 	// white rail int
 	// black rail int
-	
+	int white_rail = 0;
+	int black_rail = 0;
 	// white home int
 	// black home int
-	
+	int white_home = 0;
+	int black_home = 0;
 	// move piece from board to board
 	// decrement from
 	// increment to
