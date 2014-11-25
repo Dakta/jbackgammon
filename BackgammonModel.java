@@ -2,6 +2,11 @@ package jbackgammon;
 
 import java.awt.Color;
 
+/*==============================================================================
+ * The viewing angle for this whole thing is from the view on the white home 
+ * quadrant's side. If you still aren't sure I'll send you a picture.
+ * =============================================================================
+ */
 public class BackgammonModel<playerOne, playerTwo> {
 
 	static final int empty = 0;
@@ -127,6 +132,9 @@ public class BackgammonModel<playerOne, playerTwo> {
 	// blotting
 	// decrement from
 	// increment rail
+
+	// making sure the blotting can happen by checking to see if the colors are
+	// different and the destination count is 1
 	public boolean canBlot(int source, int dest) {
 		if (color[source] != color[dest] && count[dest] == 1) {
 			return true;
@@ -134,6 +142,7 @@ public class BackgammonModel<playerOne, playerTwo> {
 		return false;
 	}
 
+	// blotting that fucker out
 	public void blotMe(int source, int dest) {
 		int colr = color[dest];
 		if (canBlot(source, dest) == true) {
@@ -152,6 +161,47 @@ public class BackgammonModel<playerOne, playerTwo> {
 	// decrement rail
 	// increment to
 
+	public boolean canEnter(int dest, int colr) {
+		if (color[dest] != empty || color[dest] == colr) {
+			return true;
+		}
+		return false;
+	}
+
+	//Two options for this one. Not sure which one will work better
+	public void enterFromRail(int dest, int colr) {
+
+		if (canEnter(dest, colr) == true) {
+			// white
+			if (dest <= 23 && dest >= 18) {
+				count[dest]++;
+			}
+			//black
+			if (dest <= 5 && dest >= 0){
+				count[dest]++;
+			}
+		}
+		
+//		// white
+//		if (colr == white) {
+//			if (dest <= 23 && dest >= 18) {
+//				if (color[dest] == empty) {
+//					count[dest]++;
+//				}
+//			}
+//		}
+//		// black
+//		if (colr == black) {
+//			if (dest <= 5 && dest >= 0) {
+//				if (color[dest] == empty) {
+//					count[dest]++;
+//					color[dest] = colr;
+//				}
+//			}
+//
+//		}
+		
+	}
 	// has won?
 	// white rail == 15
 	// black rail == 15
