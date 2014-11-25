@@ -1,6 +1,5 @@
 package jbackgammon;
 
-import java.awt.Color;
 
 /*==============================================================================
  * The viewing angle for this whole thing is from the view on the white home 
@@ -13,7 +12,7 @@ public class BackgammonModel {
 	static final int white = 1;
 	static final int black = 2;
 	// current player
-	private Color currentPlayer;
+	private int currentPlayer;
 
 	// Which point
 	int count[];
