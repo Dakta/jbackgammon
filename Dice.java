@@ -1,43 +1,40 @@
 package jbackgammon;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import edu.princeton.cs.introcs.*;
 
 public class Dice {
+	int dice1;
+	int dice2;
+
+	boolean rolled = false;
 	
-	private static List<Integer> dice = new ArrayList<Integer>();
-
-	public static List diceRoller() {
-		int die1 = StdRandom.uniform(1,7);
-		int die2 = StdRandom.uniform(1,7);
-		dice.add(die1);
-		dice.add(die2);
-		return dice;
+	public void rollDice() {
+		dice1 = StdRandom.uniform(1, 7);
+		dice2 = StdRandom.uniform(1, 7);
+		rolled = true;
 	}
-
-	public static boolean isDouble(List dice) {
-		if (dice.get(0) == dice.get(1) ) {
+	
+	public int getDice1(){
+		return dice1;
+	}
+	
+	public int getDice2(){
+		return dice2;
+	}
+	
+	public void resetDice(){
+		dice1 = 0;
+		dice2 = 0;
+		rolled = false;
+	}
+	public boolean isDoubles(int dice1, int dice2){
+		if (dice1 == dice2){
 			return true;
-		} else {
-			return false;
-		}
-
-	}
-	
-	public static List fourMoves(List dice){
-		dice = diceRoller();
-		if (isDouble(dice)){
-			dice.addAll(dice);
-			return dice;
 		}
 		else{
-			return dice;
+			return false;
 		}
-		
 	}
-	
 	
 	
 }
