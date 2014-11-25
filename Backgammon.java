@@ -56,6 +56,24 @@ public class Backgammon {
 			// move over one
 			x += baseUnit;
 		}
+
+		// draw rails
+		x = 2*baseUnit;
+		y = 11*baseUnit;
+		StdDraw.text(baseUnit, 10.5*baseUnit, "Rail");
+		StdDraw.setPenColor(StdDraw.WHITE );
+		for (int i=0; i<model.white_rail; i++) {
+			StdDraw.filledCircle(x+0.5*baseUnit, y, 0.5*baseUnit);
+			x += baseUnit;
+		}
+		// reset
+		x = 2*baseUnit;
+		y = 10*baseUnit;
+		StdDraw.setPenColor(StdDraw.BLACK );
+		for (int i=0; i<model.black_rail; i++) {
+			StdDraw.filledCircle(x+0.5*baseUnit, y, 0.5*baseUnit);
+			x += baseUnit;
+		}
 		
 		// draw moving piece under mouse
 		StdDraw.show();
