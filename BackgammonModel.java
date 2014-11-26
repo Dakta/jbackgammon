@@ -18,10 +18,8 @@ public class BackgammonModel {
 	// Type of point
 	int color[];
 
-	// white rail int
-	// black rail int
-	int white_rail = 0;
-	int black_rail = 0;
+	// rails
+	int rail[] = new int[3]; // rail[0] is unused
 
 	// white/black HQ counts
 	int white_HQ = 0;
@@ -71,6 +69,10 @@ public class BackgammonModel {
 
 	// move piece from board to board
 	public void move(int sourcePoint, int destPoint) {
+		// array indexing
+		sourcePoint -= 1;
+		destPoint -= 1;
+		
 		if (color[destPoint] == empty || color[destPoint] == color[sourcePoint]) {
 			// regular move
 			count[sourcePoint]--;
@@ -83,11 +85,8 @@ public class BackgammonModel {
 				&& color[destPoint] != color[sourcePoint]
 				&& count[destPoint] == 1) {
 			// blot other player
-			if (color[destPoint] == white) {
-				white_rail++;
-			} else {
-				black_rail++;
-			}
+			rail[color[destPoint]]++;
+
 			color[destPoint] = color[sourcePoint];
 			count[sourcePoint]--;
 			if (count[sourcePoint] == 0) {
@@ -149,27 +148,52 @@ public class BackgammonModel {
 	}
 
 	// enter from rail
-	public boolean canEnter(int dest, int colr) {
-		if (color[dest] != empty || color[dest] == colr) {
+	public boolean canEnter(int colr, int dest) {
+		if (color[dest] == empty || color[dest] == colr) {
+			// can enter any empty point or point of own color
+			return true;
+		} else if (color[dest] != empty && color[dest] != colr && count[dest] == 1) {
+			// can enter any opponent's blot
 			return true;
 		}
 		return false;
 	}
 
-	public void enterFromRail(int dest, int colr) {
-
-		if (canEnter(dest, colr) == true) {
-			// white
-			if (dest <= 23 && dest >= 18) {
-				count[dest]++;
-				color[dest] = white;
-			}
-			// black
-			if (dest <= 5 && dest >= 0) {
-				count[dest]++;
-				color[dest] = black;
-			}
+	public void enterFromRail(int colr, int dest) {
+		// array indexing
+		dest -= 1;
+		
+		if (color[dest] == empty || color[dest] == colr) {
+			// regular enter
+			rail[colr]--;
+			color[dest] = colr;
+			count[dest]++;
+		} else if (color[dest] != empty
+				&& color[dest] != colr
+				&& count[dest] == 1) {
+			// blot other player
+			rail[colr]--;
+			rail[color[dest]]++;
+			color[dest] = colr;
+		} else {
+			// illegal move, do nothing
 		}
+
+		
+//		if (canEnter(colr, dest)) {
+//			// white
+//			if (dest <= 23 && dest >= 18) {
+//				count[dest]++;
+//				color[dest] = white;
+//			}
+//			// black
+//			if (dest <= 5 && dest >= 0) {
+//				count[dest]++;
+//				color[dest] = black;
+//			}
+//		} else {
+//			// illegal move, do nothing
+//		}
 
 	}
 
@@ -237,12 +261,12 @@ public class BackgammonModel {
 		}
 		// draw rails
 		ret += "  ";
-		for (int i=0; i<this.white_rail; i++) {
+		for (int i=0; i<this.rail[white]; i++) {
 			ret += "O";
 		}
 		ret += "\n";
 		ret += "  ";
-		for (int i=0; i<this.black_rail; i++) {
+		for (int i=0; i<this.rail[black]; i++) {
 			ret += "#";
 		}
 		ret += "\n";

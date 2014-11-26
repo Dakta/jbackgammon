@@ -82,7 +82,7 @@ public class Backgammon {
 		y = 11 * baseUnit;
 		StdDraw.text(baseUnit, 10.5 * baseUnit, "Rail");
 		StdDraw.setPenColor(StdDraw.WHITE);
-		for (int i = 0; i < model.white_rail; i++) {
+		for (int i = 0; i < model.rail[BackgammonModel.white]; i++) {
 			StdDraw.filledCircle(x + 0.5 * baseUnit, y, 0.5 * baseUnit);
 			x += baseUnit;
 		}
@@ -90,7 +90,7 @@ public class Backgammon {
 		x = 2 * baseUnit;
 		y = 10 * baseUnit;
 		StdDraw.setPenColor(StdDraw.BLACK);
-		for (int i = 0; i < model.black_rail; i++) {
+		for (int i = 0; i < model.rail[BackgammonModel.black]; i++) {
 			StdDraw.filledCircle(x + 0.5 * baseUnit, y, 0.5 * baseUnit);
 			x += baseUnit;
 		}
@@ -158,7 +158,7 @@ public class Backgammon {
 				waitingForSource = false;
 			} else { // Waiting for destination
 				waitingForSource = true;
-				model.move(currentPoint - 1, mousePoint() - 1);
+				model.move(currentPoint, mousePoint());
 				currentPlayer = currentPlayer == BackgammonModel.black ? BackgammonModel.white
 						: BackgammonModel.black;
 			}
