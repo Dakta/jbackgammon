@@ -12,10 +12,10 @@ import edu.princeton.cs.introcs.StdDraw;
 
 public class Backgammon {
 	
+	//COLORS!!!!!
 	private static final Color BROWN = new Color(97, 68, 14);
 	private static final Color LIGHT_BROWN = new Color(181, 139, 62);
 	private static final Color DARK_BROWN = new Color(115, 87, 36);
-
 	private static final Color BLACK = StdDraw.BLACK;
 	private static final Color BACKGROUND = new Color(74, 51, 8);
 
