@@ -40,5 +40,12 @@ public class BackgammonModelTest {
 		assertEquals(false, model.hasWon(12));
 	}
 
-	
+	@Test
+	public void testCanEnter(){
+		assertEquals(true, model.canEnter(5, BackgammonModel.white));
+		assertEquals(false, model.canEnter(11, BackgammonModel.white));
+		assertEquals(true, model.canEnter(11, BackgammonModel.black));
+		assertEquals(true, model.canEnter(13, BackgammonModel.black));
+		assertEquals(true, model.canEnter(13,  BackgammonModel.white));
+	}
 }

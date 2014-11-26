@@ -61,6 +61,7 @@ public class BackgammonModel {
 
 	// Setting a column up depending on the point #, number of occupants, and
 	// the color of the occupants
+
 	public void setColumn(int point, int num, int colr) {
 		count[point] = num;
 		if (num == 0) {
@@ -126,7 +127,7 @@ public class BackgammonModel {
 	}
 
 	public void bearOff(int sourcePoint, int colr) {
-		
+
 		// bear piece off
 		if (yesBear(colr) == true) {
 			count[sourcePoint]--;
@@ -137,20 +138,20 @@ public class BackgammonModel {
 			}
 		}
 	}
-	
+
 	// returns the color of the occupant of the point
 	public int getColor(int point) {
-		return color[point-1]; // array indexing
+		return color[point - 1]; // array indexing
 	}
 
 	// returns the number of pieces in a point
 	public int getCount(int point) {
-		return count[point-1]; // array indexing
+		return count[point - 1]; // array indexing
 	}
 
 	// enter from rail
 	public boolean canEnter(int dest, int colr) {
-		if (color[dest] != empty || color[dest] == colr) {
+		if (color[dest] == empty || color[dest] == colr) {
 			return true;
 		}
 		return false;
@@ -218,50 +219,50 @@ public class BackgammonModel {
 		dice1 = roll1;
 		dice2 = roll2;
 	}
-	
+
 	public String toString() {
 		String ret = "";
 		// draw white home
 		ret += "W ";
-		for (int i=0; i<this.white_home; i++) {
+		for (int i = 0; i < this.white_home; i++) {
 			ret += "O";
 		}
 		ret += "\n";
 		// draw half board
-		for (int i=0; i<this.count.length/2; i++) {
-			ret += ((i+1)/10 < 1 ? " " : "") + (i+1) + " ";
-			for (int c=0; c<this.count[i]; c++) {
+		for (int i = 0; i < this.count.length / 2; i++) {
+			ret += ((i + 1) / 10 < 1 ? " " : "") + (i + 1) + " ";
+			for (int c = 0; c < this.count[i]; c++) {
 				ret += (this.color[i] == white ? "O" : "#");
 			}
 			ret += "\n";
 		}
 		// draw rails
 		ret += "  ";
-		for (int i=0; i<this.white_rail; i++) {
+		for (int i = 0; i < this.white_rail; i++) {
 			ret += "O";
 		}
 		ret += "\n";
 		ret += "  ";
-		for (int i=0; i<this.black_rail; i++) {
+		for (int i = 0; i < this.black_rail; i++) {
 			ret += "#";
 		}
 		ret += "\n";
 		// draw half board
-		for (int i=this.count.length/2; i<this.count.length; i++) {
-			ret += ((i+1)/10 < 1 ? " " : "") + (i+1) + " ";
-			for (int c=0; c<this.count[i]; c++) {
+		for (int i = this.count.length / 2; i < this.count.length; i++) {
+			ret += ((i + 1) / 10 < 1 ? " " : "") + (i + 1) + " ";
+			for (int c = 0; c < this.count[i]; c++) {
 				ret += (this.color[i] == white ? "O" : "#");
 			}
 			ret += "\n";
 		}
-		
+
 		// draw black home
 		ret += "B ";
-		for (int i=0; i<this.black_home; i++) {
+		for (int i = 0; i < this.black_home; i++) {
 			ret += "#";
 		}
 		ret += "\n";
-		
+
 		return ret;
 	}
 
