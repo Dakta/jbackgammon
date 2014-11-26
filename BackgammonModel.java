@@ -140,12 +140,12 @@ public class BackgammonModel {
 	
 	// returns the color of the occupant of the point
 	public int getColor(int point) {
-		return color[point];
+		return color[point-1]; // array indexing
 	}
 
 	// returns the number of pieces in a point
 	public int getCount(int point) {
-		return count[point];
+		return count[point-1]; // array indexing
 	}
 
 	// enter from rail
@@ -180,8 +180,6 @@ public class BackgammonModel {
 		}
 		return false;
 	}
-
-
 
 	// actually rolls the dice
 	public void rollDice() {
