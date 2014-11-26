@@ -2,7 +2,6 @@ package jbackgammon;
 
 import edu.princeton.cs.introcs.StdRandom;
 
-
 /*==============================================================================
  * The viewing angle for this whole thing is from the view on the white home 
  * quadrant's side. If you still aren't sure I'll send you a picture.
@@ -31,12 +30,15 @@ public class BackgammonModel {
 	// black home int
 	int white_home = 0;
 	int black_home = 0;
+	// dice initializing
+	int dice1;
+	int dice2;
+	boolean rolled = false;
 
 	// board position
 	// Array of Points<Color>, is an int
 
 	// Builds initial board (constructor, if you will)
-
 	public BackgammonModel() {
 		count = new int[24];
 		color = new int[24];
@@ -45,7 +47,7 @@ public class BackgammonModel {
 			count[i] = 0;
 			color[i] = empty;
 		}
-		
+
 		setColumn(0, 2, black);
 		setColumn(5, 5, white);
 		setColumn(7, 3, white);
@@ -68,8 +70,6 @@ public class BackgammonModel {
 	}
 
 	// move piece from board to board
-	// decrement from
-	// increment to
 	public void move(int sourcePoint, int destPoint) {
 		if (color[destPoint] == empty || color[destPoint] == color[sourcePoint]) {
 			// regular move
@@ -79,7 +79,9 @@ public class BackgammonModel {
 				color[sourcePoint] = empty;
 			}
 			count[destPoint]++;
-		} else if (color[destPoint] != empty && color[destPoint] != color[sourcePoint] && count[destPoint] == 1) {
+		} else if (color[destPoint] != empty
+				&& color[destPoint] != color[sourcePoint]
+				&& count[destPoint] == 1) {
 			// blot other player
 			if (color[destPoint] == white) {
 				white_rail++;
@@ -134,8 +136,6 @@ public class BackgammonModel {
 	}
 
 	// bear piece off
-	// decrement from
-	// increment home
 	public void bearOff(int sourcePoint, int colr) {
 		if (yesBear(colr) == true) {
 			count[sourcePoint]--;
@@ -148,9 +148,6 @@ public class BackgammonModel {
 	}
 
 	// enter from rail
-	// decrement rail
-	// increment to
-
 	public boolean canEnter(int dest, int colr) {
 		if (color[dest] != empty || color[dest] == colr) {
 			return true;
@@ -158,9 +155,6 @@ public class BackgammonModel {
 		return false;
 	}
 
-	// Two options for this one. Not sure which one will work better. The second
-	// one
-	// doesn't depend on the canEnter method
 	public void enterFromRail(int dest, int colr) {
 
 		if (canEnter(dest, colr) == true) {
@@ -176,31 +170,7 @@ public class BackgammonModel {
 			}
 		}
 
-		// // white
-		// if (colr == white) {
-		// if (dest <= 23 && dest >= 18) {
-		// if (color[dest] == empty) {
-		// count[dest]++;
-		// }
-		// }
-		// }
-		// // black
-		// if (colr == black) {
-		// if (dest <= 5 && dest >= 0) {
-		// if (color[dest] == empty) {
-		// count[dest]++;
-		// color[dest] = colr;
-		// }
-		// }
-		//
-		// }
-
 	}
-
-	// has won?
-	// white rail == 15
-	// black rail == 15
-	// null
 
 	// takes the home counts and returns if they've won or not
 	public boolean hasWon(int home) {
@@ -209,43 +179,43 @@ public class BackgammonModel {
 		}
 		return false;
 	}
-	
-	int dice1;
-	int dice2;
 
-	boolean rolled = false;
-	
-	//actually rolls the dice
+
+
+	// actually rolls the dice
 	public void rollDice() {
 		dice1 = StdRandom.uniform(1, 7);
 		dice2 = StdRandom.uniform(1, 7);
 		rolled = true;
 	}
-	//getters which i know we will need
-	public int getDice1(){
+
+	// getters which i know we will need
+	public int getDice1() {
 		return dice1;
 	}
-	
-	public int getDice2(){
+
+	public int getDice2() {
 		return dice2;
 	}
-	//reset the dice for next roll
-	public void resetDice(){
+
+	// reset the dice for next roll
+	public void resetDice() {
 		dice1 = 0;
 		dice2 = 0;
 		rolled = false;
 	}
-	//checks for doubles
-	public boolean isDoubles(int dice1, int dice2){
-		if (dice1 == dice2){
+
+	// checks for doubles
+	public boolean isDoubles(int dice1, int dice2) {
+		if (dice1 == dice2) {
 			return true;
-		}
-		else{
+		} else {
 			return false;
 		}
 	}
-	//sets the dice to values for drawing
-	public void setDiceValues(int roll1, int roll2){
+
+	// sets the dice to values for drawing
+	public void setDiceValues(int roll1, int roll2) {
 		dice1 = roll1;
 		dice2 = roll2;
 	}

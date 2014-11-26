@@ -11,6 +11,21 @@ import klondikeSolitaire.Deck;
 import edu.princeton.cs.introcs.StdDraw;
 
 public class Backgammon {
+	
+	private static final Color BROWN = new Color(97, 68, 14);
+	private static final Color LIGHT_BROWN = new Color(181, 139, 62);
+	private static final Color DARK_BROWN = new Color(115, 87, 36);
+
+	private static final Color BLACK = StdDraw.BLACK;
+	private static final Color BACKGROUND = new Color(74, 51, 8);
+
+	// base circle size
+	private static final int baseUnit = 40;
+
+	private BackgammonModel model;
+	private int currentPlayer;
+	private boolean waitingForSource;
+	private int currentPoint;
 
 	public static void main(String[] args) {
 		// choose rules
@@ -20,11 +35,6 @@ public class Backgammon {
 		// initialize model and play
 		new Backgammon().run();
 	}
-
-	private BackgammonModel model;
-	private int currentPlayer;
-	private boolean waitingForSource;
-	private int currentPoint;
 
 	public Backgammon() {
 		this(BackgammonModel.black);
@@ -87,11 +97,15 @@ public class Backgammon {
 
 		StdDraw.setPenColor(StdDraw.WHITE);
 		StdDraw.text(10 * baseUnit, 10.5 * baseUnit, "Current Player");
-		StdDraw.setPenColor(currentPlayer == model.black ? StdDraw.BLACK: StdDraw.WHITE);
+		StdDraw.setPenColor(currentPlayer == model.black ? StdDraw.BLACK
+				: StdDraw.WHITE);
 		StdDraw.filledCircle(12.5 * baseUnit, 10.5 * baseUnit, 0.5 * baseUnit);
 
+		// Roll dice button. Does not do anything yet. Its just there as a
+		// reminder.
 		StdDraw.setPenColor(StdDraw.WHITE);
-		StdDraw.filledRectangle(20 * baseUnit, 10.5 * baseUnit, baseUnit,0.5 * baseUnit);
+		StdDraw.filledRectangle(20 * baseUnit, 10.5 * baseUnit, baseUnit,
+				0.5 * baseUnit);
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.text(20 * baseUnit, 10.5 * baseUnit, "Roll Dice");
 		// draw moving piece under mouse
@@ -99,16 +113,6 @@ public class Backgammon {
 
 		StdDraw.show(40);
 	}
-
-	private static final Color BROWN = new Color(97, 68, 14);
-	private static final Color LIGHT_BROWN = new Color(181, 139, 62);
-	private static final Color DARK_BROWN = new Color(115, 87, 36);
-
-	private static final Color BLACK = StdDraw.BLACK;
-	private static final Color BACKGROUND = new Color(74, 51, 8);
-
-	// base circle size
-	private static final int baseUnit = 40;
 
 	private void drawCurrentPiece() {
 		if (!waitingForSource) {
