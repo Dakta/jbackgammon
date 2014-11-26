@@ -33,5 +33,31 @@ public class BackgammonModelTest {
 		assertEquals(BackgammonModel.black, model.getColor(12));
 		assertEquals(BackgammonModel.empty, model.getColor(5));
 	}
+	
+	@Test
+	public void testMove() {
+		model.move(12, 13); // try an illegal move
+		assertEquals("W \n 1 ##\n 2 \n 3 \n 4 \n 5 \n 6 OOOOO\n 7 \n 8 OOO\n 9 \n10 \n11 \n12 #####\n  \n  \n13 OOOOO\n14 \n15 \n16 \n17 ###\n18 \n19 #####\n20 \n21 \n22 \n23 \n24 OO\nB \n", model.toString());
+		model.move(6, 8);
+		assertEquals("W \n 1 ##\n 2 \n 3 \n 4 \n 5 \n 6 OOOO\n 7 \n 8 OOOO\n 9 \n10 \n11 \n12 #####\n  \n  \n13 OOOOO\n14 \n15 \n16 \n17 ###\n18 \n19 #####\n20 \n21 \n22 \n23 \n24 OO\nB \n", model.toString());
+		model.move(17, 18);
+		assertEquals("W \n 1 ##\n 2 \n 3 \n 4 \n 5 \n 6 OOOO\n 7 \n 8 OOOO\n 9 \n10 \n11 \n12 #####\n  \n  \n13 OOOOO\n14 \n15 \n16 \n17 ##\n18 #\n19 #####\n20 \n21 \n22 \n23 \n24 OO\nB \n", model.toString());
+	}
+	
+	@Test
+	public void testBlot() {
+		// set up a couple single-piece points
+		model.move(17, 18);
+		model.move(6, 7);
+		assertEquals("W \n 1 ##\n 2 \n 3 \n 4 \n 5 \n 6 OOOO\n 7 O\n 8 OOO\n 9 \n10 \n11 \n12 #####\n  \n  \n13 OOOOO\n14 \n15 \n16 \n17 ##\n18 #\n19 #####\n20 \n21 \n22 \n23 \n24 OO\nB \n", model.toString());
+		// now blot
+		model.move(12, 7);
+		assertEquals("W \n 1 ##\n 2 \n 3 \n 4 \n 5 \n 6 OOOO\n 7 #\n 8 OOO\n 9 \n10 \n11 \n12 ####\n  O\n  \n13 OOOOO\n14 \n15 \n16 \n17 ##\n18 #\n19 #####\n20 \n21 \n22 \n23 \n24 OO\nB \n", model.toString());
+		model.move(13, 18);
+		assertEquals("W \n 1 ##\n 2 \n 3 \n 4 \n 5 \n 6 OOOO\n 7 #\n 8 OOO\n 9 \n10 \n11 \n12 ####\n  O\n  #\n13 OOOO\n14 \n15 \n16 \n17 ##\n18 O\n19 #####\n20 \n21 \n22 \n23 \n24 OO\nB \n", model.toString());
+	}
 
+	@Test
+	public void test
+	
 }
