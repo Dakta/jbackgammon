@@ -133,33 +133,6 @@ public class Backgammon {
 
 	}
 
-	public static void drawSpike(int start, Color color1, Color color2,
-			double[] x, double[] y) {
-		int count = 0;
-		// if (start == 1){
-		// count = -1;
-		// }
-		while (count < 3) {
-			if (start == 0) {
-				StdDraw.setPenColor(color1);
-				StdDraw.filledPolygon(x, y);
-				for (int i = 0; i < x.length; i++) {
-					x[i] = x[i] + 0.5;
-				}
-				start = 1;
-			}
-			if (start == 1) {
-				StdDraw.setPenColor(color2);
-				StdDraw.filledPolygon(x, y);
-				for (int i = 0; i < x.length; i++) {
-					x[i] = x[i] + 0.5;
-				}
-				start = 0;
-			}
-			count++;
-		}
-	}
-
 	/** Returns the point under the mouse. */
 	public int mousePoint() {
 		// int result = (int) Math.round(StdDraw.mouseX() / model.count.length /

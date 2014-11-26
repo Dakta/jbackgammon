@@ -125,18 +125,9 @@ public class BackgammonModel {
 		return false;
 	}
 
-	// returns the color of the occupant of the point
-	public int getColor(int point) {
-		return color[point];
-	}
-
-	// returns the number of pieces in a point
-	public int getCount(int point) {
-		return count[point];
-	}
-
-	// bear piece off
 	public void bearOff(int sourcePoint, int colr) {
+		
+		// bear piece off
 		if (yesBear(colr) == true) {
 			count[sourcePoint]--;
 			if (colr == white) {
@@ -145,6 +136,16 @@ public class BackgammonModel {
 				black_home++;
 			}
 		}
+	}
+	
+	// returns the color of the occupant of the point
+	public int getColor(int point) {
+		return color[point];
+	}
+
+	// returns the number of pieces in a point
+	public int getCount(int point) {
+		return count[point];
 	}
 
 	// enter from rail
