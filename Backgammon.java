@@ -1,13 +1,8 @@
 package jbackgammon;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.util.LinkedList;
 
-import javax.swing.*;
-
-import klondikeSolitaire.Deck;
 import edu.princeton.cs.introcs.StdDraw;
 
 public class Backgammon {
@@ -23,9 +18,9 @@ public class Backgammon {
 	private static final int baseUnit = 40;
 
 	private BackgammonModel model;
-	private int currentPlayer;
+	private Color currentPlayer;
 	private boolean waitingForSource;
-	private int currentPoint;
+	private LinkedList<Color> currentPoint;
 
 	public static void main(String[] args) {
 		// choose rules
@@ -37,15 +32,13 @@ public class Backgammon {
 	}
 
 	public Backgammon() {
-		this(BackgammonModel.black);
+		this(StdDraw.BLACK);
 	}
 
-	public Backgammon(int startingPlayer) {
-		this.model = new BackgammonModel();
+	public Backgammon(Color startingPlayer) {
+		this.model = new BackgammonModel(StdDraw.BLACK, StdDraw.WHITE);
 		this.currentPlayer = startingPlayer;
 		this.waitingForSource = true;
-		this.currentPoint = 0;
-
 	}
 
 	public void draw() {
@@ -54,7 +47,7 @@ public class Backgammon {
 		// draw pieces
 		int x = 0;
 		int y = 0;
-		for (int i = 0; i < model.count.length; i++) {
+		for (int i = 0; i < model.points.size(); i++) {
 			// draw spike
 			double[] xi = { baseUnit * i,
 					0.5 * (baseUnit * i + baseUnit * (i + 1)),
@@ -65,9 +58,8 @@ public class Backgammon {
 
 			// draw stack of pieces
 			y = 0;
-			for (int c = 0; c < model.count[i]; c++) {
-				StdDraw.setPenColor((model.color[i] == model.white ? StdDraw.WHITE
-						: StdDraw.BLACK));
+			for (int c = 0; c < model.points.get(i).size(); c++) {
+				StdDraw.setPenColor(model.getColor(model.points.get(i)));
 				StdDraw.filledCircle(x + 0.5 * baseUnit, y + 0.5 * baseUnit,
 						0.5 * baseUnit);
 				// move up one
@@ -81,24 +73,23 @@ public class Backgammon {
 		x = 2 * baseUnit;
 		y = 11 * baseUnit;
 		StdDraw.text(baseUnit, 10.5 * baseUnit, "Rail");
-		StdDraw.setPenColor(StdDraw.WHITE);
-		for (int i = 0; i < model.rail[BackgammonModel.white]; i++) {
+		StdDraw.setPenColor(model.player1);
+		for (int i = 0; i < model.rails.get(model.player1).size(); i++) {
 			StdDraw.filledCircle(x + 0.5 * baseUnit, y, 0.5 * baseUnit);
 			x += baseUnit;
 		}
 		// reset
 		x = 2 * baseUnit;
 		y = 10 * baseUnit;
-		StdDraw.setPenColor(StdDraw.BLACK);
-		for (int i = 0; i < model.rail[BackgammonModel.black]; i++) {
+		StdDraw.setPenColor(model.player2);
+		for (int i = 0; i < model.rails.get(model.player2).size(); i++) {
 			StdDraw.filledCircle(x + 0.5 * baseUnit, y, 0.5 * baseUnit);
 			x += baseUnit;
 		}
 
 		StdDraw.setPenColor(StdDraw.WHITE);
 		StdDraw.text(10 * baseUnit, 10.5 * baseUnit, "Current Player");
-		StdDraw.setPenColor(currentPlayer == model.black ? StdDraw.BLACK
-				: StdDraw.WHITE);
+		StdDraw.setPenColor(currentPlayer);
 		StdDraw.filledCircle(12.5 * baseUnit, 10.5 * baseUnit, 0.5 * baseUnit);
 
 		// Roll dice button. Does not do anything yet. Its just there as a
@@ -116,8 +107,7 @@ public class Backgammon {
 
 	private void drawCurrentPiece() {
 		if (!waitingForSource) {
-			StdDraw.setPenColor(currentPlayer == model.black ? StdDraw.BLACK
-					: StdDraw.WHITE);
+			StdDraw.setPenColor(currentPlayer);
 			StdDraw.filledCircle(StdDraw.mouseX(), StdDraw.mouseY(),
 					0.6 * baseUnit);
 		}
@@ -127,25 +117,32 @@ public class Backgammon {
 		// Background
 		StdDraw.clear(BLACK);
 		StdDraw.setPenColor(BACKGROUND);
-		StdDraw.filledRectangle(model.count.length * baseUnit / 2,
-				12 * baseUnit / 2, model.count.length * baseUnit / 2,
+		StdDraw.filledRectangle(model.points.size() * baseUnit / 2,
+				12 * baseUnit / 2, model.points.size() * baseUnit / 2,
 				12 * baseUnit / 2);
 
 	}
 
 	/** Returns the point under the mouse. */
-	public int mousePoint() {
+	public LinkedList<Color> mousePoint() {
 		// int result = (int) Math.round(StdDraw.mouseX() / model.count.length /
 		// 2 + 1);
-		int result = (int) StdDraw.mouseX() / baseUnit + 1;
-		return result;
+		if (9.5*baseUnit <= StdDraw.mouseY() && StdDraw.mouseY() < 10.5*baseUnit) {
+			// we're in player2's rail
+			return model.rails.get(model.player2);
+		} else if (10.5*baseUnit <= StdDraw.mouseY() && StdDraw.mouseY() <= 11.5*baseUnit) {
+			// we're in player1's rail
+			return model.rails.get(model.player1);
+		} else {
+			return model.points.get((int) StdDraw.mouseX() / baseUnit);			
+		}
 	}
 
 	/** Plays the game. */
 	public void run() {
 		// only do this once
-		StdDraw.setCanvasSize(model.count.length * baseUnit, 12 * baseUnit);
-		StdDraw.setXscale(0, model.count.length * baseUnit);
+		StdDraw.setCanvasSize(model.points.size() * baseUnit, 12 * baseUnit);
+		StdDraw.setXscale(0, model.points.size() * baseUnit);
 		StdDraw.setYscale(0, 12 * baseUnit);
 
 		while (true) {
@@ -158,9 +155,9 @@ public class Backgammon {
 				waitingForSource = false;
 			} else { // Waiting for destination
 				waitingForSource = true;
+				
 				model.move(currentPoint, mousePoint());
-				currentPlayer = currentPlayer == BackgammonModel.black ? BackgammonModel.white
-						: BackgammonModel.black;
+				currentPlayer = currentPlayer == model.player1 ? model.player2 : model.player1;
 			}
 			while (StdDraw.mousePressed()) {
 				// Wait for mouse release
