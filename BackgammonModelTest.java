@@ -34,4 +34,11 @@ public class BackgammonModelTest {
 		assertEquals(BackgammonModel.empty, model.getColor(5));
 	}
 
+	@Test
+	public void testHasWon(){
+		assertEquals(true, model.hasWon(15));
+		assertEquals(false, model.hasWon(12));
+	}
+
+	
 }
