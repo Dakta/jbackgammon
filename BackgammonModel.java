@@ -42,11 +42,18 @@ public class BackgammonModel {
 	// board position
 	// Array of Points<Color>, is an int
 
+	// use java.awt.Color objects to refer to players
+	// also refers to pieces
 	Color player1;
 	Color player2;
+	// points is a list of lists of colors
 	List<LinkedList<Color>> points;
+	// rails is a map where the key is a color, the value is a list
 	Map<Color, LinkedList<Color>> rails;
+	// same for homes
 	Map<Color, LinkedList<Color>> homes;
+	// this allows us to get a player's home when we only know their color
+	// without having to hard-code a variable for it
 	
 	// Builds initial board (constructor, if you will)
 	public BackgammonModel(Color player1, Color player2) {
@@ -58,8 +65,10 @@ public class BackgammonModel {
 		this.homes = new HashMap<Color, LinkedList<Color>>();
 		
 		for (int i=0; i<24; i++) {
+			// put empty points (empty list) into the list of points
 			this.points.add(new LinkedList<Color>());
 		}
+		// put empty lists in the rails and homes
 		this.rails.put(player1, new LinkedList<Color>());
 		this.rails.put(player2, new LinkedList<Color>());
 		this.homes.put(player1, new LinkedList<Color>());
@@ -86,7 +95,7 @@ public class BackgammonModel {
 
 	// Setting a column up depending on the point #, number of occupants, and
 	// the color of the occupants
-
+	// overload convenience method
 	public void setColumn(int pos, int num, java.awt.Color color) {
 		this.setColumn(this.points.get(pos - 1), num, color);
 	}
@@ -96,11 +105,18 @@ public class BackgammonModel {
 		}
 	}
 
+	// overload method, takes point numbers for move
+	// not used
 	public void move(int f, int t) {
 		this.move(this.points.get(f-1), this.points.get(t-1));
 	}
+	/*
+	 * Move a piece from source to dest. If dest is a blot (single opponent piece),
+	 * hit it (move it to opponent's rail).
+	 */
 	public void move(List<Color> source, List<Color> dest) {
 		if (source.size() == 0) {
+			// no piece to move
 			return;
 		}
 		if (dest.size() == 0 || dest.contains(source.get(0))) {
@@ -199,6 +215,7 @@ public class BackgammonModel {
 		return color[point - 1]; // array indexing
 	}
 	*/
+	
 	public Color getColor(List<Color> point) {
 		return point.get(0);
 	}
