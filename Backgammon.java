@@ -94,10 +94,17 @@ public class Backgammon {
 		// Roll dice button. Does not do anything yet. Its just there as a
 		// reminder.
 		StdDraw.setPenColor(StdDraw.WHITE);
-		StdDraw.filledRectangle(20 * baseUnit, 10.5 * baseUnit, baseUnit,
+		StdDraw.filledRectangle(18 * baseUnit, 10.5 * baseUnit, baseUnit,
 				0.5 * baseUnit);
 		StdDraw.setPenColor(StdDraw.BLACK);
-		StdDraw.text(20 * baseUnit, 10.5 * baseUnit, "Roll Dice");
+		StdDraw.text(18 * baseUnit, 10.5 * baseUnit, "Roll Dice");
+		
+		
+		StdDraw.setPenColor(StdDraw.PINK);
+		StdDraw.filledRectangle(21 * baseUnit, 10.5 * baseUnit, baseUnit,
+				0.5 * baseUnit);
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.text(21 * baseUnit, 10.5 * baseUnit, "Undo");
 		// draw moving piece under mouse
 		drawCurrentPiece();
 
@@ -132,6 +139,8 @@ public class Backgammon {
 		} else if (10.5*baseUnit <= StdDraw.mouseY() && StdDraw.mouseY() <= 11.5*baseUnit) {
 			// we're in player1's rail
 			return model.getPlayer1Rail();
+		}else if (20*baseUnit <= StdDraw.mouseY() && StdDraw.mouseY() <= 22* baseUnit){
+			return model.getState();
 		} else {
 			return model.getPoint(((int) StdDraw.mouseX() / baseUnit)+1);			
 		}

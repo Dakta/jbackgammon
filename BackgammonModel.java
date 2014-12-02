@@ -130,6 +130,10 @@ public class BackgammonModel {
 	}
 	
 
+	public List<BackgammonState> getState(){
+		return this.state;
+	}
+	
 	public static Color getColor(List<Color> point) {
 		return point.get(0);
 	}
