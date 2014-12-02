@@ -35,10 +35,10 @@ public class BackgammonModel {
 	private Map<Color, List<Color>> homes;
 
 	private List<BackgammonState> state;
+
 	// this allows us to get a player's home when we only know their color
 	// without having to hard-code a variable for it
 	
-
 	// Builds initial board (constructor, if you will)
 	public BackgammonModel(Color player1, Color player2) {
 		this.state = new LinkedList<BackgammonState>();
