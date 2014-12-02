@@ -34,13 +34,15 @@ public class BackgammonModel {
 	// same for homes
 	private Map<Color, List<Color>> homes;
 
-	private List<List<List<Color>>> state;
+	private List<BackgammonState> state;
 	// this allows us to get a player's home when we only know their color
 	// without having to hard-code a variable for it
 	
 
 	// Builds initial board (constructor, if you will)
 	public BackgammonModel(Color player1, Color player2) {
+		this.state = new LinkedList<BackgammonState>();
+		
 		this.player1 = player1;
 		this.player2 = player2;
 
@@ -76,6 +78,9 @@ public class BackgammonModel {
 		setColumn(17, 3, player1);
 		setColumn(19, 5, player1);
 		setColumn(24, 2, player2);
+
+		// update the game state history
+		this.state.add(new BackgammonState(this.player1, this.player2, this.points, this.rails, this.homes));
 
 	}
 
@@ -120,10 +125,12 @@ public class BackgammonModel {
 		} else {
 			// illegal move, do nothing
 		}
+		// update the game state history
+		this.state.add(new BackgammonState(this.player1, this.player2, this.points, this.rails, this.homes));
 	}
 	
 
-	public Color getColor(List<Color> point) {
+	public static Color getColor(List<Color> point) {
 		return point.get(0);
 	}
 	
@@ -208,49 +215,7 @@ public class BackgammonModel {
 	}
 
 	public String toString() {
-		String ret = "";
-		// draw white home
-		ret += "W ";
-		for (int i = 0; i < this.homes.get(player1).size(); i++) {
-			ret += "O";
-		}
-		ret += "\n";
-		// draw half board
-		for (int i = 0; i < this.points.size() / 2; i++) {
-			ret += ((i + 1) / 10 < 1 ? " " : "") + (i + 1) + " ";
-			for (int c = 0; c < this.points.get(i).size(); c++) {
-				ret += (getColor(this.points.get(i)) == player1 ? "#" : "O");
-			}
-			ret += "\n";
-		}
-		// draw rails
-		ret += "  ";
-		for (int i = 0; i < this.rails.get(player2).size(); i++) {
-			ret += "O";
-		}
-		ret += "\n";
-		ret += "  ";
-		for (int i = 0; i < this.rails.get(player1).size(); i++) {
-			ret += "#";
-		}
-		ret += "\n";
-		// draw half board
-		for (int i = this.points.size() / 2; i < this.points.size(); i++) {
-			ret += ((i + 1) / 10 < 1 ? " " : "") + (i + 1) + " ";
-			for (int c = 0; c < this.points.get(i).size(); c++) {
-				ret += (getColor(this.points.get(i)) == player1 ? "#" : "O");
-			}
-			ret += "\n";
-		}
-
-		// draw black home
-		ret += "B ";
-		for (int i = 0; i < this.homes.get(player2).size(); i++) {
-			ret += "#";
-		}
-		ret += "\n";
-
-		return ret;
+		return this.state.get(this.state.size() - 1).toString();
 	}
 
 }
