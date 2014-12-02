@@ -28,12 +28,13 @@ public class BackgammonModel {
 	private Color player1;
 	private Color player2;
 	// points is a list of lists of colors
-	private List<LinkedList<Color>> points;
+	private List<List<Color>> points;
 	// rails is a map where the key is a color, the value is a list
-	private Map<Color, LinkedList<Color>> rails;
+	private Map<Color, List<Color>> rails;
 	// same for homes
-	private Map<Color, LinkedList<Color>> homes;
+	private Map<Color, List<Color>> homes;
 
+	private List<List<List<Color>>> state;
 	// this allows us to get a player's home when we only know their color
 	// without having to hard-code a variable for it
 	
@@ -43,9 +44,9 @@ public class BackgammonModel {
 		this.player1 = player1;
 		this.player2 = player2;
 
-		this.points = new LinkedList<LinkedList<Color>>();
-		this.rails = new HashMap<Color, LinkedList<Color>>();
-		this.homes = new HashMap<Color, LinkedList<Color>>();
+		this.points = new LinkedList<List<Color>>();
+		this.rails = new HashMap<Color, List<Color>>();
+		this.homes = new HashMap<Color, List<Color>>();
 
 
 		for (int i = 0; i < 24; i++) {
@@ -85,9 +86,9 @@ public class BackgammonModel {
 		this.setColumn(this.points.get(pos - 1), num, color);
 	}
 
-	public void setColumn(LinkedList<Color> point, int num, java.awt.Color color) {
+	public void setColumn(List<Color> point, int num, java.awt.Color color) {
 		for (int i = 0; i < num; i++) {
-			point.push(color);
+			point.add(color);
 		}
 	}
 
@@ -147,7 +148,7 @@ public class BackgammonModel {
 		return this.points.get(point - 1 );
 	}
 	
-	public List<LinkedList<Color>> getPoints(){
+	public List<List<Color>> getPoints(){
 		return this.points;
 	}
 	
