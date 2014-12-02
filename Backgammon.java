@@ -2,6 +2,7 @@ package jbackgammon;
 
 import java.awt.Color;
 import java.util.LinkedList;
+import java.util.List;
 
 import edu.princeton.cs.introcs.StdDraw;
 
@@ -20,7 +21,7 @@ public class Backgammon {
 	private BackgammonModel model;
 	private Color currentPlayer;
 	private boolean waitingForSource;
-	private LinkedList<Color> currentPoint;
+	private List<Color> currentPoint;
 
 	public static void main(String[] args) {
 		// choose rules
@@ -47,19 +48,17 @@ public class Backgammon {
 		// draw pieces
 		int x = 0;
 		int y = 0;
-		for (int i = 0; i < model.points.size(); i++) {
+		for (int i = 0; i < model.getPoints().size(); i++) {
 			// draw spike
-			double[] xi = { baseUnit * i,
-					0.5 * (baseUnit * i + baseUnit * (i + 1)),
-					baseUnit * (i + 1) };
+			double[] xi = { baseUnit * i,0.5 * (baseUnit * i + baseUnit * (i + 1)),baseUnit * (i + 1) };
 			double[] yi = { 0, 5 * baseUnit, 0 };
 			StdDraw.setPenColor((i % 2 == 0 ? DARK_BROWN : LIGHT_BROWN));
 			StdDraw.filledPolygon(xi, yi);
 
 			// draw stack of pieces
 			y = 0;
-			for (int c = 0; c < model.points.get(i).size(); c++) {
-				StdDraw.setPenColor(model.getColor(model.points.get(i)));
+			for (int c = 0; c < model.getPoint(i+1).size(); c++) {
+				StdDraw.setPenColor(model.getColor(model.getPoint(i+1)));
 				StdDraw.filledCircle(x + 0.5 * baseUnit, y + 0.5 * baseUnit,
 						0.5 * baseUnit);
 				// move up one
@@ -73,16 +72,16 @@ public class Backgammon {
 		x = 2 * baseUnit;
 		y = 11 * baseUnit;
 		StdDraw.text(baseUnit, 10.5 * baseUnit, "Rail");
-		StdDraw.setPenColor(model.player1);
-		for (int i = 0; i < model.rails.get(model.player1).size(); i++) {
+		StdDraw.setPenColor(model.getPlayer1());
+		for (int i = 0; i < model.getPlayer1Rail().size(); i++) {
 			StdDraw.filledCircle(x + 0.5 * baseUnit, y, 0.5 * baseUnit);
 			x += baseUnit;
 		}
 		// reset
 		x = 2 * baseUnit;
 		y = 10 * baseUnit;
-		StdDraw.setPenColor(model.player2);
-		for (int i = 0; i < model.rails.get(model.player2).size(); i++) {
+		StdDraw.setPenColor(model.getPlayer2());
+		for (int i = 0; i < model.getPlayer2Rail().size(); i++) {
 			StdDraw.filledCircle(x + 0.5 * baseUnit, y, 0.5 * baseUnit);
 			x += baseUnit;
 		}
@@ -117,32 +116,32 @@ public class Backgammon {
 		// Background
 		StdDraw.clear(BLACK);
 		StdDraw.setPenColor(BACKGROUND);
-		StdDraw.filledRectangle(model.points.size() * baseUnit / 2,
-				12 * baseUnit / 2, model.points.size() * baseUnit / 2,
+		StdDraw.filledRectangle(model.getPoints().size() * baseUnit / 2,
+				12 * baseUnit / 2, model.getPoints().size() * baseUnit / 2,
 				12 * baseUnit / 2);
 
 	}
 
 	/** Returns the point under the mouse. */
-	public LinkedList<Color> mousePoint() {
+	public List<Color> mousePoint() {
 		// int result = (int) Math.round(StdDraw.mouseX() / model.count.length /
 		// 2 + 1);
 		if (9.5*baseUnit <= StdDraw.mouseY() && StdDraw.mouseY() < 10.5*baseUnit) {
 			// we're in player2's rail
-			return model.rails.get(model.player2);
+			return model.getPlayer2Rail();
 		} else if (10.5*baseUnit <= StdDraw.mouseY() && StdDraw.mouseY() <= 11.5*baseUnit) {
 			// we're in player1's rail
-			return model.rails.get(model.player1);
+			return model.getPlayer1Rail();
 		} else {
-			return model.points.get((int) StdDraw.mouseX() / baseUnit);			
+			return model.getPoint(((int) StdDraw.mouseX() / baseUnit)+1);			
 		}
 	}
 
 	/** Plays the game. */
 	public void run() {
 		// only do this once
-		StdDraw.setCanvasSize(model.points.size() * baseUnit, 12 * baseUnit);
-		StdDraw.setXscale(0, model.points.size() * baseUnit);
+		StdDraw.setCanvasSize(model.getPoints().size() * baseUnit, 12 * baseUnit);
+		StdDraw.setXscale(0, model.getPoints().size() * baseUnit);
 		StdDraw.setYscale(0, 12 * baseUnit);
 
 		while (true) {
@@ -157,7 +156,7 @@ public class Backgammon {
 				waitingForSource = true;
 				
 				model.move(currentPoint, mousePoint());
-				currentPlayer = currentPlayer == model.player1 ? model.player2 : model.player1;
+				currentPlayer = currentPlayer == model.getPlayer1() ? model.getPlayer2() : model.getPlayer1();
 			}
 			while (StdDraw.mousePressed()) {
 				// Wait for mouse release
