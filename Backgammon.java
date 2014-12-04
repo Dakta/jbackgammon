@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.princeton.cs.introcs.StdDraw;
+import edu.princeton.cs.introcs.StdOut;
 
 public class Backgammon {
 	
@@ -20,7 +21,7 @@ public class Backgammon {
 
 	private BackgammonModel model;
 	private Color currentPlayer;
-	private boolean waitingForSource;
+	private boolean drawPiece;
 	private List<Color> currentPoint;
 
 	public static void main(String[] args) {
@@ -39,7 +40,7 @@ public class Backgammon {
 	public Backgammon(Color startingPlayer) {
 		this.model = new BackgammonModel(StdDraw.BLACK, StdDraw.WHITE);
 		this.currentPlayer = startingPlayer;
-		this.waitingForSource = true;
+		this.drawPiece = false;
 	}
 
 	public void draw() {
@@ -99,7 +100,7 @@ public class Backgammon {
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.text(18 * baseUnit, 10.5 * baseUnit, "Roll Dice");
 		
-		
+		// Undo button
 		StdDraw.setPenColor(StdDraw.PINK);
 		StdDraw.filledRectangle(21 * baseUnit, 10.5 * baseUnit, baseUnit,
 				0.5 * baseUnit);
@@ -112,7 +113,7 @@ public class Backgammon {
 	}
 
 	private void drawCurrentPiece() {
-		if (!waitingForSource) {
+		if (drawPiece) {
 			StdDraw.setPenColor(currentPlayer);
 			StdDraw.filledCircle(StdDraw.mouseX(), StdDraw.mouseY(),
 					0.6 * baseUnit);
@@ -129,21 +130,20 @@ public class Backgammon {
 
 	}
 
-	/** Returns the point under the mouse. */
-	public List<Color> mousePoint() {
-		// int result = (int) Math.round(StdDraw.mouseX() / model.count.length /
-		// 2 + 1);
-		if (9.5*baseUnit <= StdDraw.mouseY() && StdDraw.mouseY() < 10.5*baseUnit) {
-			// we're in player2's rail
-			return model.getPlayer2Rail();
-		} else if (10.5*baseUnit <= StdDraw.mouseY() && StdDraw.mouseY() <= 11.5*baseUnit) {
-			// we're in player1's rail
-			return model.getPlayer1Rail();
-		}else if (20*baseUnit <= StdDraw.mouseY() && StdDraw.mouseY() <= 22* baseUnit){
-			return model.getState();
-		} else {
-			return model.getPoint(((int) StdDraw.mouseX() / baseUnit)+1);			
+	
+	// returns aray of Double [x, y]
+	public Double[] getMouseUp() {
+		drawPiece = true;
+		while (!StdDraw.mousePressed()) {
+			// Wait for mouse press
+			draw();
 		}
+		drawPiece = false;
+		while (StdDraw.mousePressed()) {
+			// Wait for mouse release
+			// We don't support click-drag mechanic
+		}
+		return new Double[] {StdDraw.mouseX(), StdDraw.mouseY()};
 	}
 
 	/** Plays the game. */
@@ -158,19 +158,49 @@ public class Backgammon {
 				// Wait for mouse press
 				draw();
 			}
-			if (waitingForSource) {
-				currentPoint = mousePoint();
-				waitingForSource = false;
-			} else { // Waiting for destination
-				waitingForSource = true;
-				
-				model.move(currentPoint, mousePoint());
-				currentPlayer = currentPlayer == model.getPlayer1() ? model.getPlayer2() : model.getPlayer1();
-			}
 			while (StdDraw.mousePressed()) {
 				// Wait for mouse release
 				// We don't support click-drag mechanic
 			}
+			
+			if (20*baseUnit <= StdDraw.mouseX() && StdDraw.mouseX() <= 22* baseUnit
+					&& 10*baseUnit <= StdDraw.mouseY() && 11*baseUnit <= StdDraw.mouseY()) {
+				// if they click on the undo button
+				model.undoState();
+				StdOut.println("undo clicked");
+//					model.setState(model.getPreviousState());
+//					continue;
+			} else {
+				// clicked on a rail
+				if (9.5*baseUnit <= StdDraw.mouseY() && StdDraw.mouseY() < 10.5*baseUnit) {
+					// player 2 rail
+					Double[] mousePos = getMouseUp();
+					model.enterFromRail(model.getPlayer2(), (int) (mousePos[0] / baseUnit) + 1);
+				} else if (10.5*baseUnit <= StdDraw.mouseY() && StdDraw.mouseY() <= 11.5*baseUnit) {
+					// player 1 rail
+					Double[] mousePos = getMouseUp();
+					model.enterFromRail(model.getPlayer1(), (int) (mousePos[0] / baseUnit) + 1);
+				} else {
+					// clicked on a point
+					int sourcePoint = (int) (StdDraw.mouseX() / baseUnit) + 1;
+					Double[] mousePos = getMouseUp();
+					// click another point, or home?
+					// if (baseUnit <= mousePos[0] && mousePos[0] <= 23*baseUnit) {
+					if (true) {
+						// clicked another point, so move
+						model.move(sourcePoint, (int) (mousePos[0] / baseUnit) + 1);
+					} else {
+						// clicked a home, so bear off
+						model.bearOff(currentPlayer, sourcePoint);
+					}
+				}
+			// } else if (...) { // clicked on a point
+			// } else if (...) { // clicked on a home
+				// they clicked a point/home/rail
+			}
+			currentPlayer = currentPlayer == model.getPlayer1() ? model.getPlayer2() : model.getPlayer1();
+
+			StdOut.println(model.getState());
 		}
 	}
 

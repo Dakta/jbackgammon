@@ -6,9 +6,11 @@ import java.util.Map;
 import java.util.LinkedList;
 import java.util.HashMap;
 
+import edu.princeton.cs.introcs.StdOut;
+
 public class BackgammonState {
-	private Color player1;
-	private Color player2;
+	Color player1;
+	Color player2;
 
 	List<List<Color>> points;
 	// rails is a map where the key is a color, the value is a list
@@ -34,6 +36,49 @@ public class BackgammonState {
 		}
 	}
 
+	public BackgammonState(BackgammonState state) {
+		this.player1 = state.player1;
+		this.player2 = state.player2;
+
+		this.points = new LinkedList<List<Color>>();
+		for (List<Color> point: state.points) {
+			this.points.add(new LinkedList<Color>(point));
+		}
+		this.rails = new HashMap<Color, List<Color>>();
+		for (Color rail: state.rails.keySet()) {
+			this.rails.put(rail, new LinkedList<Color>(state.rails.get(rail)));
+		}
+		this.homes = new HashMap<Color, List<Color>>();
+		for (Color home: state.homes.keySet()) {
+			this.homes.put(home, new LinkedList<Color>(state.homes.get(home)));
+		}
+	}
+
+	/*
+	 * Move a piece from source to dest. If dest is a blot (single opponent piece),
+	 * hit it (move it to opponent's rail).
+	 */
+	public void move(List<Color> source, List<Color> dest) {
+		if (source.size() == 0) {
+			// no piece to move
+			StdOut.println("no piece to move");
+			return;
+		}
+		if (dest.size() == 0 || dest.contains(source.get(0))) {
+			// regular move
+			dest.add(source.remove(source.size() - 1));
+		} else if (dest.size() == 1 && !dest.contains(source.get(0))) {
+			// blot
+			// move opponent's piece to rail
+			this.move(dest, this.rails.get(dest.get(0)));
+			// move our piece to now-empty point
+			this.move(source, dest);
+		} else {
+			// illegal move?, do nothing
+		}
+	}
+
+	
 	public String toString() {
 		String ret = "";
 		// draw white home
