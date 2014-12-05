@@ -145,6 +145,13 @@ public class BackgammonModel {
 		return this.getState().rails.get(this.getState().player2);
 	}
 	
+	public List<Color> getPlayer1Home(){
+		return this.getState().homes.get(this.getState().player1);
+	}
+	
+	public List<Color> getPlayer2Home(){
+		return this.getState().homes.get(this.getState().player2);
+	}
 	
 	// actually rolls the dice
 	public void rollDice() {

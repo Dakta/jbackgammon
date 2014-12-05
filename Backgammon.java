@@ -71,6 +71,25 @@ public class Backgammon {
 			StdDraw.filledCircle(x, y, 0.5 * baseUnit);
 		}
 
+		// draw homes
+		// player 2 on top
+		x = 0.5*baseUnit;
+		y = HEIGHT; // top down
+		StdDraw.text(x, y, "Rail");
+		StdDraw.setPenColor(model.getPlayer1());
+		for (int i = 0; i < model.getPlayer1Home().size(); i++) {
+			y -= 0.5*baseUnit;
+			StdDraw.filledCircle(x, y, 0.5 * baseUnit);
+		}
+		// player 1 on bottom
+		y = 0; // bottom up
+		StdDraw.setPenColor(model.getPlayer2());
+		for (int i = 0; i < model.getPlayer2Home().size(); i++) {
+			y += 0.5*baseUnit;
+			StdDraw.filledCircle(x, y, 0.5 * baseUnit);
+		}
+
+		
 		// current player indicator
 		StdDraw.setPenColor(StdDraw.WHITE);
 		StdDraw.text(10 * baseUnit, 10.5 * baseUnit, "Current Player");
@@ -233,31 +252,34 @@ public class Backgammon {
 //					continue;
 			} else if (WIDTH/2 - 0.5*baseUnit < StdDraw.mouseX() && StdDraw.mouseX() < WIDTH/2 + 0.5*baseUnit) {
 				// clicked on a rail
-				if (StdDraw.mouseY() > HEIGHT/2) {
-					// player 2 rail
-					Double[] mousePos = getMouseUp();
-					model.enterFromRail(model.getPlayer2(), getPointFromPos(mousePos[0], mousePos[1]));
-				} else {
+				if (StdDraw.mouseY() < HEIGHT/2) {
 					// player 1 rail
 					Double[] mousePos = getMouseUp();
 					model.enterFromRail(model.getPlayer1(), getPointFromPos(mousePos[0], mousePos[1]));
+				} else {
+					// player 2 rail
+					Double[] mousePos = getMouseUp();
+					model.enterFromRail(model.getPlayer2(), getPointFromPos(mousePos[0], mousePos[1]));
 				}
 			} else {
 				// clicked on a point
 				int sourcePoint = getPointFromPos(StdDraw.mouseX(), StdDraw.mouseY());
+				// get destination
 				Double[] mousePos = getMouseUp();
-				// click another point, or home?
-				// if (baseUnit <= mousePos[0] && mousePos[0] <= 23*baseUnit) {
-				if (true) {
-					// clicked another point, so move
-					model.move(sourcePoint, getPointFromPos(mousePos[0], mousePos[1]));
+				// either moving or bearing off
+				if (mousePos[0] < baseUnit) { // if x < baseUnit, dest is a home
+					// clicked on one of the homes (left edge)
+					if (mousePos[1] > HEIGHT/2) {
+						// player 1
+						model.bearOff(model.getPlayer1(), sourcePoint);
+					} else {
+						// player 2
+						model.bearOff(model.getPlayer2(), sourcePoint);
+					}
 				} else {
-					// clicked a home, so bear off
-					model.bearOff(model.getCurrentPlayer(), sourcePoint);
+					// clicked on another point
+					model.move(sourcePoint, getPointFromPos(mousePos[0], mousePos[1]));
 				}
-			// } else if (...) { // clicked on a point
-			// } else if (...) { // clicked on a home
-				// they clicked a point/home/rail
 			}
 
 			model.nextTurn();
