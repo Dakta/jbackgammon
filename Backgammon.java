@@ -51,23 +51,6 @@ public class Backgammon {
 		int y = 0;
 		for (int i = 1; i <= model.getPoints().size(); i++) {
 			drawPoint(i);
-//			// draw spike
-//			double[] xi = { baseUnit * i,0.5 * (baseUnit * i + baseUnit * (i + 1)),baseUnit * (i + 1) };
-//			double[] yi = { 0, 5 * baseUnit, 0 };
-//			StdDraw.setPenColor((i % 2 == 0 ? DARK_BROWN : LIGHT_BROWN));
-//			StdDraw.filledPolygon(xi, yi);
-//
-//			// draw stack of pieces
-//			y = 0;
-//			for (int c = 0; c < model.getPoint(i+1).size(); c++) {
-//				StdDraw.setPenColor(model.getColor(model.getPoint(i+1)));
-//				StdDraw.filledCircle(x + 0.5 * baseUnit, y + 0.5 * baseUnit,
-//						0.5 * baseUnit);
-//				// move up one
-//				y += baseUnit;
-//			}
-//			// move over one
-//			x += baseUnit;
 		}
 
 		// draw rails
