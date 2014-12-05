@@ -18,6 +18,8 @@ public class Backgammon {
 
 	// base circle size
 	private static final int baseUnit = 40;
+	private static final double WIDTH = 15*baseUnit;
+	private static final double HEIGHT = 12*baseUnit;
 
 	private BackgammonModel model;
 	private boolean drawPiece;
@@ -47,24 +49,25 @@ public class Backgammon {
 		// draw pieces
 		int x = 0;
 		int y = 0;
-		for (int i = 0; i < model.getPoints().size(); i++) {
-			// draw spike
-			double[] xi = { baseUnit * i,0.5 * (baseUnit * i + baseUnit * (i + 1)),baseUnit * (i + 1) };
-			double[] yi = { 0, 5 * baseUnit, 0 };
-			StdDraw.setPenColor((i % 2 == 0 ? DARK_BROWN : LIGHT_BROWN));
-			StdDraw.filledPolygon(xi, yi);
-
-			// draw stack of pieces
-			y = 0;
-			for (int c = 0; c < model.getPoint(i+1).size(); c++) {
-				StdDraw.setPenColor(model.getColor(model.getPoint(i+1)));
-				StdDraw.filledCircle(x + 0.5 * baseUnit, y + 0.5 * baseUnit,
-						0.5 * baseUnit);
-				// move up one
-				y += baseUnit;
-			}
-			// move over one
-			x += baseUnit;
+		for (int i = 1; i <= model.getPoints().size(); i++) {
+			drawPoint(i);
+//			// draw spike
+//			double[] xi = { baseUnit * i,0.5 * (baseUnit * i + baseUnit * (i + 1)),baseUnit * (i + 1) };
+//			double[] yi = { 0, 5 * baseUnit, 0 };
+//			StdDraw.setPenColor((i % 2 == 0 ? DARK_BROWN : LIGHT_BROWN));
+//			StdDraw.filledPolygon(xi, yi);
+//
+//			// draw stack of pieces
+//			y = 0;
+//			for (int c = 0; c < model.getPoint(i+1).size(); c++) {
+//				StdDraw.setPenColor(model.getColor(model.getPoint(i+1)));
+//				StdDraw.filledCircle(x + 0.5 * baseUnit, y + 0.5 * baseUnit,
+//						0.5 * baseUnit);
+//				// move up one
+//				y += baseUnit;
+//			}
+//			// move over one
+//			x += baseUnit;
 		}
 
 		// draw rails
@@ -85,6 +88,9 @@ public class Backgammon {
 			x += baseUnit;
 		}
 
+		StdDraw.setPenColor(StdDraw.WHITE);
+		StdDraw.text((28-13) * baseUnit, 12.5 * baseUnit, "|");
+		
 		StdDraw.setPenColor(StdDraw.WHITE);
 		StdDraw.text(10 * baseUnit, 10.5 * baseUnit, "Current Player");
 		StdDraw.setPenColor(model.getCurrentPlayer());
@@ -107,6 +113,8 @@ public class Backgammon {
 		// draw moving piece under mouse
 		drawCurrentPiece();
 
+		StdOut.println(getPointFromPos(StdDraw.mouseX(), StdDraw.mouseY()));
+		
 		StdDraw.show(40);
 	}
 
@@ -122,14 +130,87 @@ public class Backgammon {
 		// Background
 		StdDraw.clear(BLACK);
 		StdDraw.setPenColor(BACKGROUND);
-		StdDraw.filledRectangle(model.getPoints().size() * baseUnit / 2,
-				12 * baseUnit / 2, model.getPoints().size() * baseUnit / 2,
-				12 * baseUnit / 2);
+//		StdDraw.filledRectangle(model.getPoints().size() * baseUnit / 2,
+//				12 * baseUnit / 2, model.getPoints().size() * baseUnit / 2,
+//				12 * baseUnit / 2);
+		StdDraw.filledRectangle(WIDTH / 2, HEIGHT / 2, WIDTH / 2, HEIGHT / 2);
 
 	}
 
+	public void drawPoint(int i) {
+		double x = (i + 0.5) * baseUnit;
+		double y = 0;
+		// draw spike
+		double[] xi = { baseUnit * i,0.5 * (baseUnit * i + baseUnit * (i + 1)), baseUnit * (i + 1) };
+		double[] yi = { 0, 5 * baseUnit, 0 };
+
+		if (i > 12) {
+			// flip xi and yi by subtracting
+ 			for (int n=0; n<xi.length; n++) {
+				xi[n] = (2 * WIDTH) - xi[n] - 3*baseUnit;
+				yi[n] = HEIGHT - yi[n];
+			}
+			x = (2 * WIDTH) - x - 3*baseUnit;
+			y = HEIGHT - y;
+		}
+		// add space for rail
+		if (i > 12) {
+			if (i > 18) {
+				x -= baseUnit;
+	 			for (int n=0; n<xi.length; n++) {
+					xi[n] -= baseUnit;
+				}
+			}
+		} else {
+			if (i > 6) {
+				x += baseUnit;
+	 			for (int n=0; n<xi.length; n++) {
+					xi[n] += baseUnit;
+				}
+			}
+		}
+		
+		StdDraw.setPenColor((i % 2 == 0 ? DARK_BROWN : LIGHT_BROWN));
+		StdDraw.filledPolygon(xi, yi);
+		StdDraw.setPenColor(StdDraw.WHITE);
+		StdDraw.text(x, y, ""+i);
+		
+		// draw stack of pieces
+		for (int c = 0; c < model.getPoint(i).size(); c++) {
+			if (i > 12) {
+				StdDraw.setPenColor(model.getColor(model.getPoint(i)));
+				StdDraw.filledCircle(x, y - 0.5 * baseUnit, 0.5 * baseUnit);
+				// move up one
+				y -= baseUnit;
+			} else {
+				StdDraw.setPenColor(model.getColor(model.getPoint(i)));
+				StdDraw.filledCircle(x, y + 0.5 * baseUnit, 0.5 * baseUnit);
+				// move up one
+				y += baseUnit;
+			}
+		}
+	}
 	
-	// returns aray of Double [x, y]
+	public int getPointFromPos(Double x, Double y) {
+		int point;
+		if (y > HEIGHT/2) {
+			// flip logic
+			point = 24 - (int) (x / baseUnit);
+			point += 2;
+
+			if (point > 18) {
+				point--;
+			}
+		} else {
+			point = (int) (x / baseUnit);
+			if (point > 6) {
+				point --;
+			}
+		}
+		return point;
+	}
+	
+	// returns array of Double [x, y]
 	public Double[] getMouseUp() {
 		drawPiece = true;
 		while (!StdDraw.mousePressed()) {
@@ -180,13 +261,13 @@ public class Backgammon {
 					model.enterFromRail(model.getPlayer1(), (int) (mousePos[0] / baseUnit) + 1);
 				} else {
 					// clicked on a point
-					int sourcePoint = (int) (StdDraw.mouseX() / baseUnit) + 1;
+					int sourcePoint = getPointFromPos(StdDraw.mouseX(), StdDraw.mouseY());
 					Double[] mousePos = getMouseUp();
 					// click another point, or home?
 					// if (baseUnit <= mousePos[0] && mousePos[0] <= 23*baseUnit) {
 					if (true) {
 						// clicked another point, so move
-						model.move(sourcePoint, (int) (mousePos[0] / baseUnit) + 1);
+						model.move(sourcePoint, getPointFromPos(mousePos[0], mousePos[1]));
 					} else {
 						// clicked a home, so bear off
 						model.bearOff(model.getCurrentPlayer(), sourcePoint);
