@@ -11,6 +11,7 @@ import edu.princeton.cs.introcs.StdOut;
 public class BackgammonState {
 	Color player1;
 	Color player2;
+	Color currentPlayer;
 
 	List<List<Color>> points;
 	// rails is a map where the key is a color, the value is a list
@@ -18,9 +19,10 @@ public class BackgammonState {
 	// same for homes
 	Map<Color, List<Color>> homes;
 
-	public BackgammonState(Color player1, Color player2, List<List<Color>> points, Map<Color, List<Color>> rails, Map<Color, List<Color>> homes) {
+	public BackgammonState(Color player1, Color player2, Color currentPlayer, List<List<Color>> points, Map<Color, List<Color>> rails, Map<Color, List<Color>> homes) {
 		this.player1 = player1;
 		this.player2 = player2;
+		this.currentPlayer = currentPlayer;
 
 		this.points = new LinkedList<List<Color>>();
 		for (List<Color> point: points) {
@@ -39,6 +41,7 @@ public class BackgammonState {
 	public BackgammonState(BackgammonState state) {
 		this.player1 = state.player1;
 		this.player2 = state.player2;
+		this.currentPlayer = state.currentPlayer;
 
 		this.points = new LinkedList<List<Color>>();
 		for (List<Color> point: state.points) {

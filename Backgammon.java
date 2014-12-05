@@ -20,7 +20,6 @@ public class Backgammon {
 	private static final int baseUnit = 40;
 
 	private BackgammonModel model;
-	private Color currentPlayer;
 	private boolean drawPiece;
 	private List<Color> currentPoint;
 
@@ -39,7 +38,6 @@ public class Backgammon {
 
 	public Backgammon(Color startingPlayer) {
 		this.model = new BackgammonModel(StdDraw.BLACK, StdDraw.WHITE);
-		this.currentPlayer = startingPlayer;
 		this.drawPiece = false;
 	}
 
@@ -89,7 +87,7 @@ public class Backgammon {
 
 		StdDraw.setPenColor(StdDraw.WHITE);
 		StdDraw.text(10 * baseUnit, 10.5 * baseUnit, "Current Player");
-		StdDraw.setPenColor(currentPlayer);
+		StdDraw.setPenColor(model.getCurrentPlayer());
 		StdDraw.filledCircle(12.5 * baseUnit, 10.5 * baseUnit, 0.5 * baseUnit);
 
 		// Roll dice button. Does not do anything yet. Its just there as a
@@ -114,7 +112,7 @@ public class Backgammon {
 
 	private void drawCurrentPiece() {
 		if (drawPiece) {
-			StdDraw.setPenColor(currentPlayer);
+			StdDraw.setPenColor(model.getCurrentPlayer());
 			StdDraw.filledCircle(StdDraw.mouseX(), StdDraw.mouseY(),
 					0.6 * baseUnit);
 		}
@@ -191,15 +189,16 @@ public class Backgammon {
 						model.move(sourcePoint, (int) (mousePos[0] / baseUnit) + 1);
 					} else {
 						// clicked a home, so bear off
-						model.bearOff(currentPlayer, sourcePoint);
+						model.bearOff(model.getCurrentPlayer(), sourcePoint);
 					}
 				}
 			// } else if (...) { // clicked on a point
 			// } else if (...) { // clicked on a home
 				// they clicked a point/home/rail
 			}
-			currentPlayer = currentPlayer == model.getPlayer1() ? model.getPlayer2() : model.getPlayer1();
 
+			model.nextTurn();
+			
 			StdOut.println(model.getState());
 		}
 	}

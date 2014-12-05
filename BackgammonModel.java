@@ -69,8 +69,10 @@ public class BackgammonModel {
 		setColumn(points, 19, 5, player1);
 		setColumn(points, 24, 2, player2);
 
+		Color currentPlayer = player1;
+		
 		// update the game state history
-		this.state.add(new BackgammonState(player1, player2, points, rails, homes));
+		this.state.add(new BackgammonState(player1, player2, currentPlayer, points, rails, homes));
 
 	}
 
@@ -104,6 +106,12 @@ public class BackgammonModel {
 	public void bearOff(Color player, int source) {
 		BackgammonState newState = new BackgammonState(this.getState());
 		newState.move(newState.points.get(source - 1), newState.homes.get(player));
+		this.state.add(newState);
+	}
+
+	public void nextTurn() {
+		BackgammonState newState = new BackgammonState(this.getState());
+		newState.currentPlayer = this.getCurrentPlayer() == this.getPlayer1() ? this.getPlayer2() : this.getPlayer1();
 		this.state.add(newState);
 	}
 
@@ -235,6 +243,11 @@ public class BackgammonModel {
 //		for (Color home: this.getState().homes.keySet()) {
 //			this.homes.put(home, new LinkedList<Color>(homes.get(home)));
 //		}
+	}
+	
+	public Color getCurrentPlayer() {
+		// TODO Auto-generated method stub
+		return this.getState().currentPlayer;
 	}
 
 }
