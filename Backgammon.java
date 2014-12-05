@@ -71,9 +71,7 @@ public class Backgammon {
 			x += baseUnit;
 		}
 
-		StdDraw.setPenColor(StdDraw.WHITE);
-		StdDraw.text((28-13) * baseUnit, 12.5 * baseUnit, "|");
-		
+		// current player indicator
 		StdDraw.setPenColor(StdDraw.WHITE);
 		StdDraw.text(10 * baseUnit, 10.5 * baseUnit, "Current Player");
 		StdDraw.setPenColor(model.getCurrentPlayer());

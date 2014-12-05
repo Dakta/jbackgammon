@@ -21,11 +21,7 @@ public class BackgammonModel {
 	int dice2;
 	boolean rolled = false;
 
-
 	List<BackgammonState> state;
-
-	// this allows us to get a player's home when we only know their color
-	// without having to hard-code a variable for it
 	
 	// Builds initial board (constructor, if you will)
 	public BackgammonModel(Color player1, Color player2) {
@@ -52,14 +48,7 @@ public class BackgammonModel {
 		homes.put(player1, new LinkedList<Color>());
 		homes.put(player2, new LinkedList<Color>());
 
-		// count = new int[24];
-		// color = new int[24];
-		//
-		// for (int i = 0; i < 24; i++) {
-		// count[i] = 0;
-		// color[i] = empty;
-		// }
-
+		// fill out starting positions
 		setColumn(points, 1, 2, player1);
 		setColumn(points, 6, 5, player2);
 		setColumn(points, 8, 3, player2);
@@ -93,7 +82,6 @@ public class BackgammonModel {
 	// move a piece from one point to another
 	public void move(int f, int t) {
 		BackgammonState newState = new BackgammonState(this.getState());
-//		this.move(this.getState().points.get(f - 1), this.getState().points.get(t - 1));
 		newState.move(newState.points.get(f - 1), newState.points.get(t - 1));
 		this.state.add(newState);
 	}
@@ -133,33 +121,19 @@ public class BackgammonModel {
 	}
 	
 	public Color getPlayer1(){
-//		return this.player1;
 		return this.getState().player1;
 	}
 	
 	public Color getPlayer2(){
-//		return this.player2;
 		return this.getState().player2;
 	}
 	
-	
-//	public List<Color> getRail(Color player){
-////		return this.rails.get(player);
-//		return this.getState().rails.get(player);
-//	}
-//	
-//	public List<Color> getHome(Color player){
-////		return this.homes.get(player);
-//		return this.getState().homes.get(player);
-//	}
-	
+		
 	public List<Color> getPoint(int point){
-//		return this.points.get(point - 1 );
 		return this.getState().points.get(point - 1);
 	}
 	
 	public List<List<Color>> getPoints(){
-//		return this.points;
 		return this.getState().points;
 	}
 	
@@ -170,14 +144,6 @@ public class BackgammonModel {
 	public List<Color> getPlayer2Rail(){
 		return this.getState().rails.get(this.getState().player2);
 	}
-//
-//	public List<Color> getPlayer1Home(){
-//		return this.getState().homes.get(this.player1);
-//	}
-//	
-//	public List<Color> getPlayer2Home(){
-//		return this.getState().homes.get(this.player2);
-//	}
 	
 	
 	// actually rolls the dice
@@ -222,31 +188,14 @@ public class BackgammonModel {
 		return this.getState().toString();
 	}
 
-	public void setState(BackgammonState previousState) {
-		// unused?
-	}
-
 	public void undoState() {
+		// simple undo, works by removing the "current" state
 		if (this.state.size() > 1) {
 			this.state.remove(this.state.size() - 1);
 		}
-		// now update the model?
-//		this.points = new LinkedList<List<Color>>();
-//		for (List<Color> point: this.getState().points) {
-//			this.points.add(new LinkedList<Color>(point));
-//		}
-//		this.rails = new HashMap<Color, List<Color>>();
-//		for (Color rail: this.getState().rails.keySet()) {
-//			this.rails.put(rail, new LinkedList<Color>(rails.get(rail)));
-//		}
-//		this.homes = new HashMap<Color, List<Color>>();
-//		for (Color home: this.getState().homes.keySet()) {
-//			this.homes.put(home, new LinkedList<Color>(homes.get(home)));
-//		}
 	}
 	
 	public Color getCurrentPlayer() {
-		// TODO Auto-generated method stub
 		return this.getState().currentPlayer;
 	}
 
