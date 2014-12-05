@@ -47,28 +47,28 @@ public class Backgammon {
 		// draw board
 		drawBoard();
 		// draw pieces
-		int x = 0;
-		int y = 0;
+		double x = 0;
+		double y = 0;
 		for (int i = 1; i <= model.getPoints().size(); i++) {
 			drawPoint(i);
 		}
 
 		// draw rails
-		x = 2 * baseUnit;
-		y = 11 * baseUnit;
-		StdDraw.text(baseUnit, 10.5 * baseUnit, "Rail");
+		// player 2 on top, player 1 on bottom
+		x = WIDTH/2;
+		y = HEIGHT/2;
+		StdDraw.text(x, y, "Rail");
 		StdDraw.setPenColor(model.getPlayer1());
 		for (int i = 0; i < model.getPlayer1Rail().size(); i++) {
-			StdDraw.filledCircle(x + 0.5 * baseUnit, y, 0.5 * baseUnit);
-			x += baseUnit;
+			y -= baseUnit;
+			StdDraw.filledCircle(x, y, 0.5 * baseUnit);
 		}
 		// reset
-		x = 2 * baseUnit;
-		y = 10 * baseUnit;
+		y = HEIGHT/2;
 		StdDraw.setPenColor(model.getPlayer2());
 		for (int i = 0; i < model.getPlayer2Rail().size(); i++) {
-			StdDraw.filledCircle(x + 0.5 * baseUnit, y, 0.5 * baseUnit);
-			x += baseUnit;
+			y += baseUnit;
+			StdDraw.filledCircle(x, y, 0.5 * baseUnit);
 		}
 
 		// current player indicator
@@ -94,7 +94,8 @@ public class Backgammon {
 		// draw moving piece under mouse
 		drawCurrentPiece();
 
-		StdOut.println(getPointFromPos(StdDraw.mouseX(), StdDraw.mouseY()));
+//		StdOut.println(getPointFromPos(StdDraw.mouseX(), StdDraw.mouseY()));
+		StdOut.println(""+StdDraw.mouseX()+ ", "+StdDraw.mouseY());
 		
 		StdDraw.show(40);
 	}
@@ -230,29 +231,29 @@ public class Backgammon {
 				StdOut.println("undo clicked");
 //					model.setState(model.getPreviousState());
 //					continue;
-			} else {
+			} else if (WIDTH/2 - 0.5*baseUnit < StdDraw.mouseX() && StdDraw.mouseX() < WIDTH/2 + 0.5*baseUnit) {
 				// clicked on a rail
-				if (9.5*baseUnit <= StdDraw.mouseY() && StdDraw.mouseY() < 10.5*baseUnit) {
+				if (StdDraw.mouseY() > HEIGHT/2) {
 					// player 2 rail
 					Double[] mousePos = getMouseUp();
-					model.enterFromRail(model.getPlayer2(), (int) (mousePos[0] / baseUnit) + 1);
-				} else if (10.5*baseUnit <= StdDraw.mouseY() && StdDraw.mouseY() <= 11.5*baseUnit) {
+					model.enterFromRail(model.getPlayer2(), getPointFromPos(mousePos[0], mousePos[1]));
+				} else {
 					// player 1 rail
 					Double[] mousePos = getMouseUp();
-					model.enterFromRail(model.getPlayer1(), (int) (mousePos[0] / baseUnit) + 1);
+					model.enterFromRail(model.getPlayer1(), getPointFromPos(mousePos[0], mousePos[1]));
+				}
+			} else {
+				// clicked on a point
+				int sourcePoint = getPointFromPos(StdDraw.mouseX(), StdDraw.mouseY());
+				Double[] mousePos = getMouseUp();
+				// click another point, or home?
+				// if (baseUnit <= mousePos[0] && mousePos[0] <= 23*baseUnit) {
+				if (true) {
+					// clicked another point, so move
+					model.move(sourcePoint, getPointFromPos(mousePos[0], mousePos[1]));
 				} else {
-					// clicked on a point
-					int sourcePoint = getPointFromPos(StdDraw.mouseX(), StdDraw.mouseY());
-					Double[] mousePos = getMouseUp();
-					// click another point, or home?
-					// if (baseUnit <= mousePos[0] && mousePos[0] <= 23*baseUnit) {
-					if (true) {
-						// clicked another point, so move
-						model.move(sourcePoint, getPointFromPos(mousePos[0], mousePos[1]));
-					} else {
-						// clicked a home, so bear off
-						model.bearOff(model.getCurrentPlayer(), sourcePoint);
-					}
+					// clicked a home, so bear off
+					model.bearOff(model.getCurrentPlayer(), sourcePoint);
 				}
 			// } else if (...) { // clicked on a point
 			// } else if (...) { // clicked on a home
@@ -261,7 +262,7 @@ public class Backgammon {
 
 			model.nextTurn();
 			
-			StdOut.println(model.getState());
+//			StdOut.println(model.getState());
 		}
 	}
 
