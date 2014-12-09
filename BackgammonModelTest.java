@@ -71,4 +71,5 @@ public class BackgammonModelTest {
 		// not yet written
 		// move validation will probably occur in Backgammon.java
 	}
+	
 }

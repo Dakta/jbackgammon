@@ -155,8 +155,7 @@ public class BackgammonModel {
 	}
 	
 	// actually rolls the dice
-	public List<Integer> rolledDice() {
-		dice.clear();
+	public List<Integer> rollDice() {
 		dice1 = StdRandom.uniform(1, 7);
 		dice2 = StdRandom.uniform(1, 7);
 		dice.add(dice1);
@@ -167,22 +166,21 @@ public class BackgammonModel {
 
 	// getters which i know we will need
 	public int getDice1() {
-		return rolledDice().get(0);
+		return dice.get(0);
 	}
 
 	public int getDice2() {
-		return rolledDice().get(1);
+		return dice.get(1);
 	}
 
 	// checks for doubles
-//	public boolean isDoubles(int dice1, int dice2) {
-//		if (dice1 == dice2) {
-//			return true;
-//		} else {
-//			return false;
-//		}
-//	}
-
+	public boolean doubles(List<Integer> dice){
+		if (dice.get(0) == dice.get(1)){
+			return true;
+		} else {
+		return false;
+		}
+	}
 
 	public String toString() {
 		return this.getState().toString();

@@ -112,7 +112,7 @@ public class Backgammon {
 		StdDraw.text(21 * baseUnit, 10.5 * baseUnit, "Undo");
 		// draw moving piece under mouse
 		drawCurrentPiece();
-		drawDice();
+		dice();
 //		StdOut.println(getPointFromPos(StdDraw.mouseX(), StdDraw.mouseY()));
 //		StdOut.println(""+StdDraw.mouseX()+ ", "+StdDraw.mouseY());
 		
@@ -138,10 +138,72 @@ public class Backgammon {
 
 	}
 	
-	public void drawDice(){
+	public void dice(){
+		double pip = 0.25 * baseUnit;
 		StdDraw.setPenColor(StdDraw.WHITE);
 		StdDraw.filledSquare(18 * baseUnit, 5 * baseUnit, 1.15*baseUnit);
 		StdDraw.filledSquare(22 * baseUnit, 5 * baseUnit, 1.15* baseUnit);
+		
+		model.rollDice();
+		StdDraw.setPenColor(BLACK);
+		//die 1
+		if (model.getDice1() == 1){
+			StdDraw.filledCircle(18 * baseUnit, 5 * baseUnit, pip);	
+		} else if (model.getDice1() == 2){
+			StdDraw.filledCircle(17.4 * baseUnit, 5.6 * baseUnit, pip);
+			StdDraw.filledCircle(18.6 * baseUnit, 4.4 * baseUnit, pip);
+		} else if (model.getDice1() == 3){
+			StdDraw.filledCircle(17.4 * baseUnit, 5.6 * baseUnit, pip);
+			StdDraw.filledCircle(18.6 * baseUnit, 4.4 * baseUnit, pip);
+			StdDraw.filledCircle(18 * baseUnit, 5 * baseUnit, pip);
+		} else if (model.getDice1() == 4){
+			StdDraw.filledCircle(17.4 * baseUnit, 5.6 * baseUnit, pip);
+			StdDraw.filledCircle(18.6 * baseUnit, 4.4 * baseUnit, pip);
+			StdDraw.filledCircle(17.4 * baseUnit, 4.4 * baseUnit, pip);
+			StdDraw.filledCircle(18.6 * baseUnit, 5.6 * baseUnit, pip);
+		} else if (model.getDice1() == 5){
+			StdDraw.filledCircle(17.4 * baseUnit, 5.6 * baseUnit, pip);
+			StdDraw.filledCircle(18.6 * baseUnit, 4.4 * baseUnit, pip);
+			StdDraw.filledCircle(17.4 * baseUnit, 4.4 * baseUnit, pip);
+			StdDraw.filledCircle(18.6 * baseUnit, 5.6 * baseUnit, pip);
+			StdDraw.filledCircle(18 * baseUnit, 5 * baseUnit, pip);
+		} else if (model.getDice1() == 6){
+			StdDraw.filledCircle(17.4 * baseUnit, 5.6 * baseUnit, pip);
+			StdDraw.filledCircle(18.6 * baseUnit, 4.4 * baseUnit, pip);
+			StdDraw.filledCircle(17.4 * baseUnit, 4.4 * baseUnit, pip);
+			StdDraw.filledCircle(18.6 * baseUnit, 5.6 * baseUnit, pip);
+			StdDraw.filledCircle(18.6 * baseUnit, 5 * baseUnit, pip);
+			StdDraw.filledCircle(17.4 * baseUnit, 5 * baseUnit, pip);
+		}
+		//die 2
+		if (model.getDice1() == 1){
+			StdDraw.filledCircle(22 * baseUnit, 5 * baseUnit, pip);	
+		} else if (model.getDice1() == 2){
+			StdDraw.filledCircle(21.4 * baseUnit, 5.6 * baseUnit, pip);
+			StdDraw.filledCircle(22.6 * baseUnit, 4.4 * baseUnit, pip);
+		} else if (model.getDice1() == 3){
+			StdDraw.filledCircle(21.4 * baseUnit, 5.6 * baseUnit, pip);
+			StdDraw.filledCircle(22.6 * baseUnit, 4.4 * baseUnit, pip);
+			StdDraw.filledCircle(22 * baseUnit, 5 * baseUnit, pip);
+		} else if (model.getDice1() == 4){
+			StdDraw.filledCircle(21.4 * baseUnit, 5.6 * baseUnit, pip);
+			StdDraw.filledCircle(22.6 * baseUnit, 4.4 * baseUnit, pip);
+			StdDraw.filledCircle(21.4 * baseUnit, 4.4 * baseUnit, pip);
+			StdDraw.filledCircle(22.6 * baseUnit, 5.6 * baseUnit, pip);
+		} else if (model.getDice1() == 5){
+			StdDraw.filledCircle(21.4 * baseUnit, 5.6 * baseUnit, pip);
+			StdDraw.filledCircle(22.6 * baseUnit, 4.4 * baseUnit, pip);
+			StdDraw.filledCircle(21.4 * baseUnit, 4.4 * baseUnit, pip);
+			StdDraw.filledCircle(22.6 * baseUnit, 5.6 * baseUnit, pip);
+			StdDraw.filledCircle(22 * baseUnit, 5 * baseUnit, pip);
+		} else if (model.getDice1() == 6){
+			StdDraw.filledCircle(21.4 * baseUnit, 5.6 * baseUnit, pip);
+			StdDraw.filledCircle(22.6 * baseUnit, 4.4 * baseUnit, pip);
+			StdDraw.filledCircle(21.4 * baseUnit, 4.4 * baseUnit, pip);
+			StdDraw.filledCircle(22.6 * baseUnit, 5.6 * baseUnit, pip);
+			StdDraw.filledCircle(22.6 * baseUnit, 5 * baseUnit, pip);
+			StdDraw.filledCircle(21.4 * baseUnit, 5 * baseUnit, pip);
+		}
 	}
 
 	public void drawPoint(int i) {
