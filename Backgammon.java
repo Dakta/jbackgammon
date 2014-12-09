@@ -142,6 +142,7 @@ public class Backgammon {
 		
 		double pip = 0.25 * baseUnit;
 		StdDraw.setPenColor(StdDraw.WHITE);
+		
 		StdDraw.filledSquare(centerX * baseUnit, centerY * baseUnit, 1.15*baseUnit);
 		StdDraw.setPenColor(BLACK);
 		if (model.getDie(die) == 1){
@@ -173,11 +174,9 @@ public class Backgammon {
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, centerY * baseUnit, pip);
 		}
 	}
-	public void drawDice(List<Integer> dice){
+	public void drawDice(){
 		this.drawDie(18* baseUnit, 5 * baseUnit, 0);
 		this.drawDie(22* baseUnit, 5 * baseUnit, 1);
-		
-		
 	}
 
 	public void drawPoint(int i) {
@@ -297,10 +296,10 @@ public class Backgammon {
 			}else if (17*baseUnit <= StdDraw.mouseX() && StdDraw.mouseX() <= 19 *baseUnit
 						&& 9 * baseUnit <= StdDraw.mouseY() && 10 * baseUnit <= StdDraw.mouseY()){
 				StdOut.println("roll dice clicked");
-				List<Integer> dice = model.rolledDice();
-				StdOut.println(model.getDice1());
-				StdOut.println(model.getDice2());
-
+				
+				StdOut.println(model.getDie(0));
+				StdOut.println(model.getDie(1));
+				drawDice();
 
 				
 			} else if (WIDTH/2 - 0.5*baseUnit < StdDraw.mouseX() && StdDraw.mouseX() < WIDTH/2 + 0.5*baseUnit) {

@@ -165,13 +165,13 @@ public class BackgammonModel {
 	}
 
 	// getters which i know we will need
-	public int getDice1() {
-		return this.dice.get(0);
+	public int getDie(int index) {
+		return this.dice.get(index);
 	}
 
-	public int getDice2() {
-		return this.dice.get(1);
-	}
+//	public int getDice2() {
+//		return this.dice.get(1);
+//	}
 
 	// checks for doubles
 	public boolean doubles(List<Integer> dice){
