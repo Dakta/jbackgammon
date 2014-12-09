@@ -155,21 +155,22 @@ public class BackgammonModel {
 	}
 	
 	// actually rolls the dice
-	public List<Integer> rollDice() {
+	public List<Integer> rolledDice() {
+		this.dice = new LinkedList<Integer>(); 
 		dice1 = StdRandom.uniform(1, 7);
 		dice2 = StdRandom.uniform(1, 7);
-		dice.add(dice1);
-		dice.add(dice2);
+		this.dice.add(dice1);
+		this.dice.add(dice2);
 		rolled = true;
-		return dice;
+		return this.dice;
 	}
 
 	// getters which i know we will need
-	public int getDice1() {
+	public int getDice1(List<Integer> dice) {
 		return dice.get(0);
 	}
 
-	public int getDice2() {
+	public int getDice2(List<Integer> dice) {
 		return dice.get(1);
 	}
 

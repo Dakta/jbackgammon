@@ -112,7 +112,7 @@ public class Backgammon {
 		StdDraw.text(21 * baseUnit, 10.5 * baseUnit, "Undo");
 		// draw moving piece under mouse
 		drawCurrentPiece();
-		dice();
+//		dice();
 //		StdOut.println(getPointFromPos(StdDraw.mouseX(), StdDraw.mouseY()));
 //		StdOut.println(""+StdDraw.mouseX()+ ", "+StdDraw.mouseY());
 		
@@ -138,36 +138,36 @@ public class Backgammon {
 
 	}
 	
-	public void dice(){
+	public void rollDice(){
+		List<Integer> dice = model.rolledDice();
 		double pip = 0.25 * baseUnit;
 		StdDraw.setPenColor(StdDraw.WHITE);
 		StdDraw.filledSquare(18 * baseUnit, 5 * baseUnit, 1.15*baseUnit);
 		StdDraw.filledSquare(22 * baseUnit, 5 * baseUnit, 1.15* baseUnit);
 		
-		model.rollDice();
 		StdDraw.setPenColor(BLACK);
 		//die 1
-		if (model.getDice1() == 1){
+		if (model.getDice1(dice) == 1){
 			StdDraw.filledCircle(18 * baseUnit, 5 * baseUnit, pip);	
-		} else if (model.getDice1() == 2){
+		} else if (model.getDice1(dice) == 2){
 			StdDraw.filledCircle(17.4 * baseUnit, 5.6 * baseUnit, pip);
 			StdDraw.filledCircle(18.6 * baseUnit, 4.4 * baseUnit, pip);
-		} else if (model.getDice1() == 3){
+		} else if (model.getDice1(dice) == 3){
 			StdDraw.filledCircle(17.4 * baseUnit, 5.6 * baseUnit, pip);
 			StdDraw.filledCircle(18.6 * baseUnit, 4.4 * baseUnit, pip);
 			StdDraw.filledCircle(18 * baseUnit, 5 * baseUnit, pip);
-		} else if (model.getDice1() == 4){
+		} else if (model.getDice1(dice) == 4){
 			StdDraw.filledCircle(17.4 * baseUnit, 5.6 * baseUnit, pip);
 			StdDraw.filledCircle(18.6 * baseUnit, 4.4 * baseUnit, pip);
 			StdDraw.filledCircle(17.4 * baseUnit, 4.4 * baseUnit, pip);
 			StdDraw.filledCircle(18.6 * baseUnit, 5.6 * baseUnit, pip);
-		} else if (model.getDice1() == 5){
+		} else if (model.getDice1(dice) == 5){
 			StdDraw.filledCircle(17.4 * baseUnit, 5.6 * baseUnit, pip);
 			StdDraw.filledCircle(18.6 * baseUnit, 4.4 * baseUnit, pip);
 			StdDraw.filledCircle(17.4 * baseUnit, 4.4 * baseUnit, pip);
 			StdDraw.filledCircle(18.6 * baseUnit, 5.6 * baseUnit, pip);
 			StdDraw.filledCircle(18 * baseUnit, 5 * baseUnit, pip);
-		} else if (model.getDice1() == 6){
+		} else if (model.getDice1(dice) == 6){
 			StdDraw.filledCircle(17.4 * baseUnit, 5.6 * baseUnit, pip);
 			StdDraw.filledCircle(18.6 * baseUnit, 4.4 * baseUnit, pip);
 			StdDraw.filledCircle(17.4 * baseUnit, 4.4 * baseUnit, pip);
@@ -176,27 +176,27 @@ public class Backgammon {
 			StdDraw.filledCircle(17.4 * baseUnit, 5 * baseUnit, pip);
 		}
 		//die 2
-		if (model.getDice1() == 1){
+		if (model.getDice2(dice) == 1){
 			StdDraw.filledCircle(22 * baseUnit, 5 * baseUnit, pip);	
-		} else if (model.getDice1() == 2){
+		} else if (model.getDice2(dice) == 2){
 			StdDraw.filledCircle(21.4 * baseUnit, 5.6 * baseUnit, pip);
 			StdDraw.filledCircle(22.6 * baseUnit, 4.4 * baseUnit, pip);
-		} else if (model.getDice1() == 3){
+		} else if (model.getDice2(dice) == 3){
 			StdDraw.filledCircle(21.4 * baseUnit, 5.6 * baseUnit, pip);
 			StdDraw.filledCircle(22.6 * baseUnit, 4.4 * baseUnit, pip);
 			StdDraw.filledCircle(22 * baseUnit, 5 * baseUnit, pip);
-		} else if (model.getDice1() == 4){
+		} else if (model.getDice2(dice) == 4){
 			StdDraw.filledCircle(21.4 * baseUnit, 5.6 * baseUnit, pip);
 			StdDraw.filledCircle(22.6 * baseUnit, 4.4 * baseUnit, pip);
 			StdDraw.filledCircle(21.4 * baseUnit, 4.4 * baseUnit, pip);
 			StdDraw.filledCircle(22.6 * baseUnit, 5.6 * baseUnit, pip);
-		} else if (model.getDice1() == 5){
+		} else if (model.getDice2(dice) == 5){
 			StdDraw.filledCircle(21.4 * baseUnit, 5.6 * baseUnit, pip);
 			StdDraw.filledCircle(22.6 * baseUnit, 4.4 * baseUnit, pip);
 			StdDraw.filledCircle(21.4 * baseUnit, 4.4 * baseUnit, pip);
 			StdDraw.filledCircle(22.6 * baseUnit, 5.6 * baseUnit, pip);
 			StdDraw.filledCircle(22 * baseUnit, 5 * baseUnit, pip);
-		} else if (model.getDice1() == 6){
+		} else if (model.getDice2(dice) == 6){
 			StdDraw.filledCircle(21.4 * baseUnit, 5.6 * baseUnit, pip);
 			StdDraw.filledCircle(22.6 * baseUnit, 4.4 * baseUnit, pip);
 			StdDraw.filledCircle(21.4 * baseUnit, 4.4 * baseUnit, pip);
@@ -319,10 +319,11 @@ public class Backgammon {
 //					model.setState(model.getPreviousState());
 //					continue;
 //				18 * baseUnit, 10.5 * baseUnit, baseUnit, 0.5 * baseUnit
-//			}else if (17*baseUnit <= StdDraw.mouseX() && StdDraw.mouseX() <= 19 *baseUnit
-//						&& 10 * baseUnit <= StdDraw.mouseY() && 11* baseUnit <= StdDraw.mouseY()){
-//				drawDice();
-//				StdOut.println("roll dice clicked");
+				//if they click the dice button
+			}else if (17*baseUnit <= StdDraw.mouseX() && StdDraw.mouseX() <= 19 *baseUnit
+						&& 10 * baseUnit <= StdDraw.mouseY() && 11* baseUnit <= StdDraw.mouseY()){
+				rollDice();
+				StdOut.println("roll dice clicked");
 			} else if (WIDTH/2 - 0.5*baseUnit < StdDraw.mouseX() && StdDraw.mouseX() < WIDTH/2 + 0.5*baseUnit) {
 				// clicked on a rail
 				if (StdDraw.mouseY() < HEIGHT/2) {
