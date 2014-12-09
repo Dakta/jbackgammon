@@ -15,7 +15,7 @@ public class Backgammon {
 	private static final Color DARK_BROWN = new Color(115, 87, 36);
 	private static final Color BLACK = StdDraw.BLACK;
 	private static final Color BACKGROUND = new Color(74, 51, 8);
-
+	private static final Color DARK_GREEN = new Color(41,107,37);
 	// base circle size
 	private static final int baseUnit = 40;
 	private static final double WIDTH = 15*baseUnit;
@@ -92,9 +92,9 @@ public class Backgammon {
 		
 		// current player indicator
 		StdDraw.setPenColor(StdDraw.WHITE);
-		StdDraw.text(10 * baseUnit, 10.5 * baseUnit, "Current Player");
+		StdDraw.text(18.5 * baseUnit, 9 * baseUnit, "Current Player");
 		StdDraw.setPenColor(model.getCurrentPlayer());
-		StdDraw.filledCircle(12.5 * baseUnit, 10.5 * baseUnit, 0.5 * baseUnit);
+		StdDraw.filledCircle(21 * baseUnit, 9 * baseUnit, 0.5 * baseUnit);
 
 		// Roll dice button. Does not do anything yet. Its just there as a
 		// reminder.
@@ -112,9 +112,9 @@ public class Backgammon {
 		StdDraw.text(21 * baseUnit, 10.5 * baseUnit, "Undo");
 		// draw moving piece under mouse
 		drawCurrentPiece();
-
+		drawDice();
 //		StdOut.println(getPointFromPos(StdDraw.mouseX(), StdDraw.mouseY()));
-		StdOut.println(""+StdDraw.mouseX()+ ", "+StdDraw.mouseY());
+//		StdOut.println(""+StdDraw.mouseX()+ ", "+StdDraw.mouseY());
 		
 		StdDraw.show(40);
 	}
@@ -129,13 +129,19 @@ public class Backgammon {
 
 	private void drawBoard() {
 		// Background
-		StdDraw.clear(BLACK);
+		StdDraw.clear(DARK_GREEN);
 		StdDraw.setPenColor(BACKGROUND);
 //		StdDraw.filledRectangle(model.getPoints().size() * baseUnit / 2,
 //				12 * baseUnit / 2, model.getPoints().size() * baseUnit / 2,
 //				12 * baseUnit / 2);
 		StdDraw.filledRectangle(WIDTH / 2, HEIGHT / 2, WIDTH / 2, HEIGHT / 2);
 
+	}
+	
+	public void drawDice(){
+		StdDraw.setPenColor(StdDraw.WHITE);
+		StdDraw.filledSquare(18 * baseUnit, 5 * baseUnit, 1.15*baseUnit);
+		StdDraw.filledSquare(22 * baseUnit, 5 * baseUnit, 1.15* baseUnit);
 	}
 
 	public void drawPoint(int i) {
@@ -250,6 +256,11 @@ public class Backgammon {
 				StdOut.println("undo clicked");
 //					model.setState(model.getPreviousState());
 //					continue;
+//				18 * baseUnit, 10.5 * baseUnit, baseUnit, 0.5 * baseUnit
+//			}else if (17*baseUnit <= StdDraw.mouseX() && StdDraw.mouseX() <= 19 *baseUnit
+//						&& 10 * baseUnit <= StdDraw.mouseY() && 11* baseUnit <= StdDraw.mouseY()){
+//				drawDice();
+//				StdOut.println("roll dice clicked");
 			} else if (WIDTH/2 - 0.5*baseUnit < StdDraw.mouseX() && StdDraw.mouseX() < WIDTH/2 + 0.5*baseUnit) {
 				// clicked on a rail
 				if (StdDraw.mouseY() < HEIGHT/2) {
