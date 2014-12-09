@@ -20,6 +20,7 @@ public class BackgammonModel {
 	int dice1;
 	int dice2;
 	boolean rolled = false;
+	List<Integer> dice;
 
 	List<BackgammonState> state;
 	
@@ -154,42 +155,34 @@ public class BackgammonModel {
 	}
 	
 	// actually rolls the dice
-	public void rollDice() {
+	public List<Integer> rolledDice() {
+		dice.clear();
 		dice1 = StdRandom.uniform(1, 7);
 		dice2 = StdRandom.uniform(1, 7);
+		dice.add(dice1);
+		dice.add(dice2);
 		rolled = true;
+		return dice;
 	}
 
 	// getters which i know we will need
 	public int getDice1() {
-		return dice1;
+		return rolledDice().get(0);
 	}
 
 	public int getDice2() {
-		return dice2;
-	}
-
-	// reset the dice for next roll
-	public void resetDice() {
-		dice1 = 0;
-		dice2 = 0;
-		rolled = false;
+		return rolledDice().get(1);
 	}
 
 	// checks for doubles
-	public boolean isDoubles(int dice1, int dice2) {
-		if (dice1 == dice2) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+//	public boolean isDoubles(int dice1, int dice2) {
+//		if (dice1 == dice2) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
 
-	// sets the dice to values for drawing
-	public void setDiceValues(int roll1, int roll2) {
-		dice1 = roll1;
-		dice2 = roll2;
-	}
 
 	public String toString() {
 		return this.getState().toString();
