@@ -19,7 +19,7 @@ public class BackgammonModel {
 	// dice initializing
 	int dice1;
 	int dice2;
-	boolean rolled = false;
+	
 	List<Integer> dice;
 
 	List<BackgammonState> state;
@@ -155,23 +155,22 @@ public class BackgammonModel {
 	}
 	
 	// actually rolls the dice
-	public List<Integer> rolledDice() {
+	public  List<Integer> rolledDice() {
 		this.dice = new LinkedList<Integer>(); 
 		dice1 = StdRandom.uniform(1, 7);
 		dice2 = StdRandom.uniform(1, 7);
 		this.dice.add(dice1);
 		this.dice.add(dice2);
-		rolled = true;
 		return this.dice;
 	}
 
 	// getters which i know we will need
-	public int getDice1(List<Integer> dice) {
-		return dice.get(0);
+	public int getDice1() {
+		return this.dice.get(0);
 	}
 
-	public int getDice2(List<Integer> dice) {
-		return dice.get(1);
+	public int getDice2() {
+		return this.dice.get(1);
 	}
 
 	// checks for doubles
