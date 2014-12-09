@@ -140,11 +140,15 @@ public class Backgammon {
 	
 	public void rollDice(){
 		List<Integer> dice = model.rolledDice();
+		//pip size
 		double pip = 0.25 * baseUnit;
+		
+		//dice backgrounds
 		StdDraw.setPenColor(StdDraw.WHITE);
 		StdDraw.filledSquare(18 * baseUnit, 5 * baseUnit, 1.15*baseUnit);
 		StdDraw.filledSquare(22 * baseUnit, 5 * baseUnit, 1.15* baseUnit);
 		
+		//the number that comes from the rolling in the model determines how many pips are going to be drawn
 		StdDraw.setPenColor(BLACK);
 		//die 1
 		if (model.getDice1(dice) == 1){
@@ -321,9 +325,10 @@ public class Backgammon {
 //				18 * baseUnit, 10.5 * baseUnit, baseUnit, 0.5 * baseUnit
 				//if they click the dice button
 			}else if (17*baseUnit <= StdDraw.mouseX() && StdDraw.mouseX() <= 19 *baseUnit
-						&& 10 * baseUnit <= StdDraw.mouseY() && 11* baseUnit <= StdDraw.mouseY()){
-				rollDice();
+						&& 9 * baseUnit <= StdDraw.mouseY() && 10 * baseUnit <= StdDraw.mouseY()){
 				StdOut.println("roll dice clicked");
+				rollDice();
+				
 			} else if (WIDTH/2 - 0.5*baseUnit < StdDraw.mouseX() && StdDraw.mouseX() < WIDTH/2 + 0.5*baseUnit) {
 				// clicked on a rail
 				if (StdDraw.mouseY() < HEIGHT/2) {
