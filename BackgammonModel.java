@@ -169,9 +169,6 @@ public class BackgammonModel {
 		return this.dice.get(index);
 	}
 
-//	public int getDice2() {
-//		return this.dice.get(1);
-//	}
 
 	// checks for doubles
 	public boolean doubles(List<Integer> dice){

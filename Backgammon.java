@@ -293,13 +293,13 @@ public class Backgammon {
 //					continue;
 
 				//if they click the dice button
-			}else if (17*baseUnit <= StdDraw.mouseX() && StdDraw.mouseX() <= 19 *baseUnit
-						&& 9 * baseUnit <= StdDraw.mouseY() && 10 * baseUnit <= StdDraw.mouseY()){
-				StdOut.println("roll dice clicked");
-				
-				StdOut.println(model.getDie(0));
-				StdOut.println(model.getDie(1));
-				drawDice();
+//			}else if (17*baseUnit <= StdDraw.mouseX() && StdDraw.mouseX() <= 19 *baseUnit
+//						&& 9 * baseUnit <= StdDraw.mouseY() && 10 * baseUnit <= StdDraw.mouseY()){
+//				StdOut.println("roll dice clicked");
+//				
+//				StdOut.println(model.getDie(0));
+//				StdOut.println(model.getDie(1));
+//				drawDice();
 
 				
 			} else if (WIDTH/2 - 0.5*baseUnit < StdDraw.mouseX() && StdDraw.mouseX() < WIDTH/2 + 0.5*baseUnit) {
