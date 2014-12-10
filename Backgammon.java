@@ -1,8 +1,6 @@
 package jbackgammon;
 
 import java.awt.Color;
-import java.util.LinkedList;
-import java.util.List;
 
 import edu.princeton.cs.introcs.StdDraw;
 import edu.princeton.cs.introcs.StdOut;
@@ -23,8 +21,6 @@ public class Backgammon {
 
 	private BackgammonModel model;
 	private boolean drawPiece;
-	private List<Color> currentPoint;
-	private int movesLeft;
 
 	public static void main(String[] args) {
 		// choose rules
