@@ -66,18 +66,21 @@ public class BackgammonState {
 	 * Move a piece from source to dest. If dest is a blot (single opponent piece),
 	 * hit it (move it to opponent's rail).
 	 */
-	public void move(List<Color> source, List<Color> dest) {
+	public boolean move(List<Color> source, List<Color> dest) {
 		if (dest.size() == 0 || dest.contains(source.get(0))) {
 			// regular move
 			dest.add(source.remove(source.size() - 1));
+			return true;
 		} else if (dest.size() == 1 && !dest.contains(source.get(0))) {
 			// blot
 			// move opponent's piece to rail
 			this.move(dest, this.rails.get(dest.get(0)));
 			// move our piece to now-empty point
 			this.move(source, dest);
+			return true;
 		} else {
 			// illegal move?, do nothing
+			return false;
 		}
 	}
 

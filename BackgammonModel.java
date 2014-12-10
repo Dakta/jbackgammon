@@ -94,9 +94,11 @@ public class BackgammonModel {
 				// "use" the move
 				newState.movesLeft.remove(new Integer(Math.abs(f - t)));
 				// move the piece
-				newState.move(newState.points.get(f - 1), newState.points.get(t - 1));
-				// push the undo state
-				this.state.add(newState);							
+				if (newState.move(newState.points.get(f - 1), newState.points.get(t - 1))) {
+					// if the move was valid
+					// push the undo state
+					this.state.add(newState);
+				}
 			}
 		}
 	}
