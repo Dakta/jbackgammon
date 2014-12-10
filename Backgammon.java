@@ -140,49 +140,49 @@ public class Backgammon {
 
 	}
 	
-	public void drawDie(double centerX, int centerY, int value){
+	public void drawDie(int centerX, int centerY, int value){
 		
-		double pip = 0.125 * baseUnit;
+		double pip = 0.25 * baseUnit;
 		
 		StdDraw.setPenColor(StdDraw.WHITE);
-		StdDraw.filledSquare(centerX * baseUnit, centerY * baseUnit, 0.575*baseUnit);
+		StdDraw.filledSquare(centerX * baseUnit, centerY * baseUnit, 1.15*baseUnit);
 		StdDraw.setPenColor(BLACK);
 				
 		if (value == 1){
 			StdDraw.filledCircle(centerX * baseUnit, centerY * baseUnit, pip);	
 		} else if (value == 2){
-			StdDraw.filledCircle((centerX - 0.3) * baseUnit, (centerY + 0.3) * baseUnit, pip);
-			StdDraw.filledCircle((centerX + 0.3) * baseUnit, (centerY - 0.3) * baseUnit, pip);
+			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
+			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
 		} else if (value == 3){
-			StdDraw.filledCircle((centerX - 0.3) * baseUnit, (centerY + 0.3) * baseUnit, pip);
-			StdDraw.filledCircle((centerX + 0.3) * baseUnit, (centerY - 0.3) * baseUnit, pip);
+			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
+			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
 			StdDraw.filledCircle(centerX * baseUnit, centerY * baseUnit, pip);
 		} else if (value == 4){
-			StdDraw.filledCircle((centerX - 0.3) * baseUnit, (centerY + 0.3) * baseUnit, pip);
-			StdDraw.filledCircle((centerX + 0.3) * baseUnit, (centerY - 0.3) * baseUnit, pip);
-			StdDraw.filledCircle((centerX - 0.3) * baseUnit, (centerY - 0.3) * baseUnit, pip);
-			StdDraw.filledCircle((centerX + 0.3) * baseUnit, (centerY + 0.3) * baseUnit, pip);
+			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
+			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
+			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
+			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
 		} else if (value == 5){
-			StdDraw.filledCircle((centerX - 0.3) * baseUnit, (centerY + 0.3) * baseUnit, pip);
-			StdDraw.filledCircle((centerX + 0.3) * baseUnit, (centerY - 0.3) * baseUnit, pip);
-			StdDraw.filledCircle((centerX - 0.3) * baseUnit, (centerY - 0.3) * baseUnit, pip);
-			StdDraw.filledCircle((centerX + 0.3) * baseUnit, (centerY + 0.3) * baseUnit, pip);
+			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
+			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
+			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
+			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
 			StdDraw.filledCircle(centerX * baseUnit, centerY * baseUnit, pip);
 		} else if (value == 6){
-			StdDraw.filledCircle((centerX - 0.3) * baseUnit, (centerY + 0.3) * baseUnit, pip);
-			StdDraw.filledCircle((centerX + 0.3) * baseUnit, (centerY - 0.3) * baseUnit, pip);
-			StdDraw.filledCircle((centerX - 0.3) * baseUnit, (centerY - 0.3) * baseUnit, pip);
-			StdDraw.filledCircle((centerX + 0.3) * baseUnit, (centerY + 0.3) * baseUnit, pip);
-			StdDraw.filledCircle((centerX + 0.3) * baseUnit, centerY * baseUnit, pip);
-			StdDraw.filledCircle((centerX - 0.3) * baseUnit, centerY * baseUnit, pip);
+			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
+			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
+			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
+			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
+			StdDraw.filledCircle((centerX + 0.6) * baseUnit, centerY * baseUnit, pip);
+			StdDraw.filledCircle((centerX - 0.6) * baseUnit, centerY * baseUnit, pip);
 		}
 	}
 	
 	public void drawDice() {
-		double x = 18;
+		int x = 18;
 		for (int i=0; i<model.getState().movesLeft.size(); i++) {
 			this.drawDie(x, 5, model.getState().movesLeft.get(i));
-			x += 1.5;
+			x += 3;
 		}
 	}
 
