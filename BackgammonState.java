@@ -18,15 +18,14 @@ public class BackgammonState {
 	Map<Color, List<Color>> rails;
 	// same for homes
 	Map<Color, List<Color>> homes;
-	Integer[] dice;
-	Integer movesLeft;
-
-	public BackgammonState(Color player1, Color player2, Color currentPlayer, Integer[] dice, Integer movesLeft, List<List<Color>> points, Map<Color, List<Color>> rails, Map<Color, List<Color>> homes) {
+	List<Integer> movesLeft;
+	
+	public BackgammonState(Color player1, Color player2, Color currentPlayer, List<Integer> movesLeft, List<List<Color>> points, Map<Color, List<Color>> rails, Map<Color, List<Color>> homes) {
 		this.player1 = player1;
 		this.player2 = player2;
 		this.currentPlayer = currentPlayer;
-		this.dice = dice;
-		this.movesLeft = movesLeft;
+		
+		this.movesLeft = new LinkedList<Integer>(movesLeft);
 
 		this.points = new LinkedList<List<Color>>();
 		for (List<Color> point: points) {
@@ -46,8 +45,8 @@ public class BackgammonState {
 		this.player1 = state.player1;
 		this.player2 = state.player2;
 		this.currentPlayer = state.currentPlayer;
-		this.dice = state.dice;
-		this.movesLeft = state.movesLeft;
+
+		this.movesLeft = new LinkedList<Integer>(state.movesLeft);
 
 		this.points = new LinkedList<List<Color>>();
 		for (List<Color> point: state.points) {

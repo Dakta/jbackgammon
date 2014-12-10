@@ -140,37 +140,35 @@ public class Backgammon {
 
 	}
 	
-	public void drawDie(int centerX, int centerY, int die){
+	public void drawDie(int centerX, int centerY, int value){
 		
 		double pip = 0.25 * baseUnit;
 		
 		StdDraw.setPenColor(StdDraw.WHITE);
 		StdDraw.filledSquare(centerX * baseUnit, centerY * baseUnit, 1.15*baseUnit);
 		StdDraw.setPenColor(BLACK);
-		
-		Integer[] dice = model.getDice();
-		
-		if (dice[die] == 1){
+				
+		if (value == 1){
 			StdDraw.filledCircle(centerX * baseUnit, centerY * baseUnit, pip);	
-		} else if (dice[die] == 2){
+		} else if (value == 2){
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
-		} else if (dice[die] == 3){
+		} else if (value == 3){
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
 			StdDraw.filledCircle(centerX * baseUnit, centerY * baseUnit, pip);
-		} else if (dice[die] == 4){
+		} else if (value == 4){
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
-		} else if (dice[die] == 5){
+		} else if (value == 5){
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
 			StdDraw.filledCircle(centerX * baseUnit, centerY * baseUnit, pip);
-		} else if (dice[die] == 6){
+		} else if (value == 6){
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
@@ -180,9 +178,12 @@ public class Backgammon {
 		}
 	}
 	
-	public void drawDice(){
-		this.drawDie(18, 5, 0);
-		this.drawDie(22, 5, 1);
+	public void drawDice() {
+		int x = 18;
+		for (int i=0; i<model.getState().movesLeft.size(); i++) {
+			this.drawDie(x, 5, model.getState().movesLeft.get(i));
+			x += 3;
+		}
 	}
 
 	public void drawPoint(int i) {
@@ -355,7 +356,7 @@ public class Backgammon {
 			}
 
 //			model.nextTurn();
-			if (model.getMovesLeft() < 1) {
+			if (model.getState().movesLeft.size() < 1) {
 				model.nextTurn();
 			}
 			
