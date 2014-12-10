@@ -289,8 +289,7 @@ public class Backgammon {
 				// if they click on the undo button
 				model.undoState();
 				StdOut.println("undo clicked");
-//					model.setState(model.getPreviousState());
-//					continue;
+				continue;
 
 				//if they click the dice button
 //			}else if (17*baseUnit <= StdDraw.mouseX() && StdDraw.mouseX() <= 19 *baseUnit
