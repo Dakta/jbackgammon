@@ -16,11 +16,8 @@ import edu.princeton.cs.introcs.StdRandom;
  */
 public class BackgammonModel {
 
-	// dice initializing
-	int dice1;
-	int dice2;
 	
-	List<Integer> dice;
+	Integer[] dice;
 
 	List<BackgammonState> state;
 	
@@ -61,8 +58,12 @@ public class BackgammonModel {
 
 		Color currentPlayer = player1;
 		
+		Integer[] dice = new Integer[2];
+		dice[0] = StdRandom.uniform(1, 7);
+		dice[1] = StdRandom.uniform(1, 7);
+		
 		// update the game state history
-		this.state.add(new BackgammonState(player1, player2, currentPlayer, points, rails, homes));
+		this.state.add(new BackgammonState(player1, player2, currentPlayer, dice, points, rails, homes));
 
 	}
 
@@ -82,9 +83,15 @@ public class BackgammonModel {
 	
 	// move a piece from one point to another
 	public void move(int f, int t) {
-		BackgammonState newState = new BackgammonState(this.getState());
-		newState.move(newState.points.get(f - 1), newState.points.get(t - 1));
-		this.state.add(newState);
+		if ((getCurrentPlayer() == getPlayer1()
+				&& f < t)
+			|| (getCurrentPlayer() == getPlayer2()
+					&& t < f)) {
+			// just ignore invalid moves
+			BackgammonState newState = new BackgammonState(this.getState());
+			newState.move(newState.points.get(f - 1), newState.points.get(t - 1));
+			this.state.add(newState);			
+		}
 	}
 
 	public void enterFromRail(Color player, int dest) {
@@ -106,15 +113,7 @@ public class BackgammonModel {
 
 	// gets current state
 	public BackgammonState getState(){
-		return this.getState(0);
-	}
-	// gets previous state
-	public BackgammonState getPreviousState(){
-		return this.getState(1);
-	}
-	// gets a state i back from current
-	public BackgammonState getState(int i){
-		return this.state.get((this.state.size() - 1) - i);
+		return this.state.get(this.state.size() - 1);
 	}
 	
 	public static Color getColor(List<Color> point) {
@@ -129,7 +128,6 @@ public class BackgammonModel {
 		return this.getState().player2;
 	}
 	
-		
 	public List<Color> getPoint(int point){
 		return this.getState().points.get(point - 1);
 	}
@@ -155,28 +153,27 @@ public class BackgammonModel {
 	}
 	
 	// actually rolls the dice
-	public  List<Integer> rolledDice() {
-		this.dice = new LinkedList<Integer>(); 
-		dice1 = StdRandom.uniform(1, 7);
-		dice2 = StdRandom.uniform(1, 7);
-		this.dice.add(dice1);
-		this.dice.add(dice2);
-		return this.dice;
+	public Integer[] rollDice() {
+		// roll some random-ass numbers
+		Integer[] dice = new Integer[2];
+		dice[0] = StdRandom.uniform(1, 7);
+		dice[1] = StdRandom.uniform(1, 7);
+		// make it undo-able
+		BackgammonState newState = new BackgammonState(this.getState());
+		newState.dice = dice;
+		this.state.add(newState);
+		// return the value so it's useful
+		return dice;
 	}
 
 	// getters which i know we will need
-	public int getDie(int index) {
-		return this.dice.get(index);
+	public Integer[] getDice() {
+		return this.getState().dice;
 	}
 
-
 	// checks for doubles
-	public boolean doubles(List<Integer> dice){
-		if (dice.get(0) == dice.get(1)){
-			return true;
-		} else {
-		return false;
-		}
+	public boolean doubles(Integer[] dice){
+		return (dice[0] == dice[1]);
 	}
 
 	public String toString() {

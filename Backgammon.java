@@ -110,11 +110,16 @@ public class Backgammon {
 				0.5 * baseUnit);
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.text(21 * baseUnit, 10.5 * baseUnit, "Undo");
+		
+		// dice
+		drawDice();
+		
 		// draw moving piece under mouse
 		drawCurrentPiece();
 //		dice();
 //		StdOut.println(getPointFromPos(StdDraw.mouseX(), StdDraw.mouseY()));
 //		StdOut.println(""+StdDraw.mouseX()+ ", "+StdDraw.mouseY());
+		
 		
 		StdDraw.show(40);
 	}
@@ -141,31 +146,34 @@ public class Backgammon {
 	public void drawDie(int centerX, int centerY, int die){
 		
 		double pip = 0.25 * baseUnit;
-		StdDraw.setPenColor(StdDraw.WHITE);
 		
+		StdDraw.setPenColor(StdDraw.WHITE);
 		StdDraw.filledSquare(centerX * baseUnit, centerY * baseUnit, 1.15*baseUnit);
 		StdDraw.setPenColor(BLACK);
-		if (model.getDie(die) == 1){
+		
+		Integer[] dice = model.getDice();
+		
+		if (dice[die] == 1){
 			StdDraw.filledCircle(centerX * baseUnit, centerY * baseUnit, pip);	
-		} else if (model.getDie(die) == 2){
+		} else if (dice[die] == 2){
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
-		} else if (model.getDie(die) == 3){
+		} else if (dice[die] == 3){
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
 			StdDraw.filledCircle(centerX * baseUnit, centerY * baseUnit, pip);
-		} else if (model.getDie(die) == 4){
+		} else if (dice[die] == 4){
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
-		} else if (model.getDie(die) == 5){
+		} else if (dice[die] == 5){
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
 			StdDraw.filledCircle(centerX * baseUnit, centerY * baseUnit, pip);
-		} else if (model.getDie(die) == 6){
+		} else if (dice[die] == 6){
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY + 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX + 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, (centerY - 0.6) * baseUnit, pip);
@@ -173,10 +181,12 @@ public class Backgammon {
 			StdDraw.filledCircle((centerX + 0.6) * baseUnit, centerY * baseUnit, pip);
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, centerY * baseUnit, pip);
 		}
+		StdOut.println("Drew some dice");
 	}
+	
 	public void drawDice(){
-		this.drawDie(18* baseUnit, 5 * baseUnit, 0);
-		this.drawDie(22* baseUnit, 5 * baseUnit, 1);
+		this.drawDie(18, 5, 0);
+		this.drawDie(22, 5, 1);
 	}
 
 	public void drawPoint(int i) {
@@ -284,22 +294,20 @@ public class Backgammon {
 				// We don't support click-drag mechanic
 			}
 			
+			
 			if (20*baseUnit <= StdDraw.mouseX() && StdDraw.mouseX() <= 22* baseUnit
-					&& 10*baseUnit <= StdDraw.mouseY() && 11*baseUnit <= StdDraw.mouseY()) {
+					&& 9 * baseUnit <= StdDraw.mouseY() && 10 * baseUnit <= StdDraw.mouseY()) {
 				// if they click on the undo button
 				model.undoState();
 				StdOut.println("undo clicked");
 				continue;
 
-				//if they click the dice button
-//			}else if (17*baseUnit <= StdDraw.mouseX() && StdDraw.mouseX() <= 19 *baseUnit
-//						&& 9 * baseUnit <= StdDraw.mouseY() && 10 * baseUnit <= StdDraw.mouseY()){
-//				StdOut.println("roll dice clicked");
-//				
-//				StdOut.println(model.getDie(0));
-//				StdOut.println(model.getDie(1));
-//				drawDice();
-
+			} else if (17*baseUnit <= StdDraw.mouseX() && StdDraw.mouseX() <= 19 *baseUnit
+						&& 9 * baseUnit <= StdDraw.mouseY() && 10 * baseUnit <= StdDraw.mouseY()) {
+				// if they click the dice button
+				StdOut.println("roll dice clicked");
+				model.rollDice();
+				StdOut.println(model.getDice());
 				
 			} else if (WIDTH/2 - 0.5*baseUnit < StdDraw.mouseX() && StdDraw.mouseX() < WIDTH/2 + 0.5*baseUnit) {
 				// clicked on a rail
@@ -315,6 +323,11 @@ public class Backgammon {
 			} else {
 				// clicked on a point
 				int sourcePoint = getPointFromPos(StdDraw.mouseX(), StdDraw.mouseY());
+				if (model.getPoint(sourcePoint).size() == 0
+						|| BackgammonModel.getColor(model.getPoint(sourcePoint)) != model.getCurrentPlayer()) {
+					// try again
+					continue;
+				}
 				// get destination
 				Double[] mousePos = getMouseUp();
 				// either moving or bearing off
