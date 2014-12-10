@@ -322,7 +322,7 @@ public class Backgammon {
 					Double[] mousePos = getMouseUp();
 					model.enterFromRail(model.getPlayer2(), getPointFromPos(mousePos[0], mousePos[1]));
 				}
-			} else {
+			} else if (StdDraw.mouseX() > baseUnit && StdDraw.mouseX() < 14 * baseUnit) {
 				// clicked on a point
 				int sourcePoint = getPointFromPos(StdDraw.mouseX(), StdDraw.mouseY());
 				if (model.getPoint(sourcePoint).size() < 1
