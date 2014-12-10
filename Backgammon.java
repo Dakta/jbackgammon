@@ -24,6 +24,7 @@ public class Backgammon {
 	private BackgammonModel model;
 	private boolean drawPiece;
 	private List<Color> currentPoint;
+	private int movesLeft;
 
 	public static void main(String[] args) {
 		// choose rules
@@ -181,7 +182,6 @@ public class Backgammon {
 			StdDraw.filledCircle((centerX + 0.6) * baseUnit, centerY * baseUnit, pip);
 			StdDraw.filledCircle((centerX - 0.6) * baseUnit, centerY * baseUnit, pip);
 		}
-		StdOut.println("Drew some dice");
 	}
 	
 	public void drawDice(){
@@ -293,8 +293,7 @@ public class Backgammon {
 				// Wait for mouse release
 				// We don't support click-drag mechanic
 			}
-			
-			
+						
 			if (20*baseUnit <= StdDraw.mouseX() && StdDraw.mouseX() <= 22* baseUnit
 					&& 9 * baseUnit <= StdDraw.mouseY() && 10 * baseUnit <= StdDraw.mouseY()) {
 				// if they click on the undo button
@@ -302,14 +301,20 @@ public class Backgammon {
 				StdOut.println("undo clicked");
 				continue;
 
-			} else if (17*baseUnit <= StdDraw.mouseX() && StdDraw.mouseX() <= 19 *baseUnit
+			}
+			/*
+			if (17*baseUnit <= StdDraw.mouseX() && StdDraw.mouseX() <= 19 *baseUnit
 						&& 9 * baseUnit <= StdDraw.mouseY() && 10 * baseUnit <= StdDraw.mouseY()) {
 				// if they click the dice button
-				StdOut.println("roll dice clicked");
 				model.rollDice();
-				StdOut.println(model.getDice());
-				
-			} else if (WIDTH/2 - 0.5*baseUnit < StdDraw.mouseX() && StdDraw.mouseX() < WIDTH/2 + 0.5*baseUnit) {
+				// keep track of number of moves left for current player
+				// decrement when player moves
+				// call model.nextTurn() when it reaches 0
+			}
+			*/	
+			
+			
+			if (WIDTH/2 - 0.5*baseUnit < StdDraw.mouseX() && StdDraw.mouseX() < WIDTH/2 + 0.5*baseUnit) {
 				// clicked on a rail
 				if (StdDraw.mouseY() < HEIGHT/2) {
 					// player 1 rail
@@ -323,30 +328,40 @@ public class Backgammon {
 			} else {
 				// clicked on a point
 				int sourcePoint = getPointFromPos(StdDraw.mouseX(), StdDraw.mouseY());
-				if (model.getPoint(sourcePoint).size() == 0
+				if (model.getPoint(sourcePoint).size() < 1
 						|| BackgammonModel.getColor(model.getPoint(sourcePoint)) != model.getCurrentPlayer()) {
 					// try again
 					continue;
 				}
-				// get destination
-				Double[] mousePos = getMouseUp();
-				// either moving or bearing off
-				if (mousePos[0] < baseUnit) { // if x < baseUnit, dest is a home
-					// clicked on one of the homes (left edge)
-					if (mousePos[1] > HEIGHT/2) {
-						// player 1
-						model.bearOff(model.getPlayer1(), sourcePoint);
+				while (true) {
+					// get destination
+					Double[] mousePos = getMouseUp();
+					// either moving or bearing off
+					if (mousePos[0] < baseUnit) { // if x < baseUnit, dest is a home
+						// clicked on one of the homes (left edge)
+						if (model.getCurrentPlayer() == model.getPlayer1()
+								&& mousePos[1] > HEIGHT/2) {
+							// player 1
+							model.bearOff(model.getPlayer1(), sourcePoint);
+							break;
+						} else if (model.getCurrentPlayer() == model.getPlayer2()
+									&& mousePos[1] < HEIGHT/2) {
+							// player 2
+							model.bearOff(model.getPlayer2(), sourcePoint);
+							break;
+						}
 					} else {
-						// player 2
-						model.bearOff(model.getPlayer2(), sourcePoint);
+						// clicked on another point
+						model.move(sourcePoint, getPointFromPos(mousePos[0], mousePos[1]));
+						break;
 					}
-				} else {
-					// clicked on another point
-					model.move(sourcePoint, getPointFromPos(mousePos[0], mousePos[1]));
 				}
 			}
 
-			model.nextTurn();
+//			model.nextTurn();
+			if (model.getMovesLeft() < 1) {
+				model.nextTurn();
+			}
 			
 //			StdOut.println(model.getState());
 		}

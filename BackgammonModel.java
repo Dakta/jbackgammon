@@ -61,10 +61,10 @@ public class BackgammonModel {
 		Integer[] dice = new Integer[2];
 		dice[0] = StdRandom.uniform(1, 7);
 		dice[1] = StdRandom.uniform(1, 7);
+		Integer movesLeft = dice[0]==dice[1] ? 4 : 2;
 		
 		// update the game state history
-		this.state.add(new BackgammonState(player1, player2, currentPlayer, dice, points, rails, homes));
-
+		this.state.add(new BackgammonState(player1, player2, currentPlayer, dice, movesLeft, points, rails, homes));
 	}
 
 	// Setting a column up depending on the point #, number of occupants, and
@@ -83,6 +83,12 @@ public class BackgammonModel {
 	
 	// move a piece from one point to another
 	public void move(int f, int t) {
+		if (this.getPoint(f).size() == 0) {
+			// no piece to move
+			StdOut.println("no piece to move");
+			return;
+		}
+
 		if ((getCurrentPlayer() == getPlayer1()
 				&& f < t)
 			|| (getCurrentPlayer() == getPlayer2()
@@ -90,6 +96,7 @@ public class BackgammonModel {
 			// just ignore invalid moves
 			BackgammonState newState = new BackgammonState(this.getState());
 			newState.move(newState.points.get(f - 1), newState.points.get(t - 1));
+			newState.movesLeft--;
 			this.state.add(newState);			
 		}
 	}
@@ -97,17 +104,27 @@ public class BackgammonModel {
 	public void enterFromRail(Color player, int dest) {
 		BackgammonState newState = new BackgammonState(this.getState());
 		newState.move(newState.rails.get(player), newState.points.get(dest - 1));
+		newState.movesLeft--;
 		this.state.add(newState);
 	}
 	public void bearOff(Color player, int source) {
 		BackgammonState newState = new BackgammonState(this.getState());
 		newState.move(newState.points.get(source - 1), newState.homes.get(player));
+		newState.movesLeft--;
 		this.state.add(newState);
 	}
 
 	public void nextTurn() {
 		BackgammonState newState = new BackgammonState(this.getState());
+		// switch player
 		newState.currentPlayer = this.getCurrentPlayer() == this.getPlayer1() ? this.getPlayer2() : this.getPlayer1();
+		// roll dice
+		Integer[] dice = new Integer[2];
+		dice[0] = StdRandom.uniform(1, 7);
+		dice[1] = StdRandom.uniform(1, 7);
+		newState.dice = dice;
+		newState.movesLeft = dice[0]==dice[1] ? 4 : 2;
+		// go!
 		this.state.add(newState);
 	}
 
@@ -152,6 +169,7 @@ public class BackgammonModel {
 		return this.getState().homes.get(this.getState().player2);
 	}
 	
+	/*
 	// actually rolls the dice
 	public Integer[] rollDice() {
 		// roll some random-ass numbers
@@ -161,16 +179,22 @@ public class BackgammonModel {
 		// make it undo-able
 		BackgammonState newState = new BackgammonState(this.getState());
 		newState.dice = dice;
+		newState.movesLeft = dice[0]==dice[1] ? 4 : 2;
 		this.state.add(newState);
 		// return the value so it's useful
 		return dice;
 	}
+	*/
 
 	// getters which i know we will need
 	public Integer[] getDice() {
 		return this.getState().dice;
 	}
 
+	public boolean doubles() {
+		return this.doubles(this.getState().dice);
+	}
+	
 	// checks for doubles
 	public boolean doubles(Integer[] dice){
 		return (dice[0] == dice[1]);
@@ -189,6 +213,10 @@ public class BackgammonModel {
 	
 	public Color getCurrentPlayer() {
 		return this.getState().currentPlayer;
+	}
+
+	public int getMovesLeft() {
+		return this.getState().movesLeft;
 	}
 
 }

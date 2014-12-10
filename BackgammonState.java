@@ -18,13 +18,15 @@ public class BackgammonState {
 	Map<Color, List<Color>> rails;
 	// same for homes
 	Map<Color, List<Color>> homes;
-	public Integer[] dice;
+	Integer[] dice;
+	Integer movesLeft;
 
-	public BackgammonState(Color player1, Color player2, Color currentPlayer, Integer[] dice, List<List<Color>> points, Map<Color, List<Color>> rails, Map<Color, List<Color>> homes) {
+	public BackgammonState(Color player1, Color player2, Color currentPlayer, Integer[] dice, Integer movesLeft, List<List<Color>> points, Map<Color, List<Color>> rails, Map<Color, List<Color>> homes) {
 		this.player1 = player1;
 		this.player2 = player2;
 		this.currentPlayer = currentPlayer;
 		this.dice = dice;
+		this.movesLeft = movesLeft;
 
 		this.points = new LinkedList<List<Color>>();
 		for (List<Color> point: points) {
@@ -45,6 +47,7 @@ public class BackgammonState {
 		this.player2 = state.player2;
 		this.currentPlayer = state.currentPlayer;
 		this.dice = state.dice;
+		this.movesLeft = state.movesLeft;
 
 		this.points = new LinkedList<List<Color>>();
 		for (List<Color> point: state.points) {
@@ -65,11 +68,6 @@ public class BackgammonState {
 	 * hit it (move it to opponent's rail).
 	 */
 	public void move(List<Color> source, List<Color> dest) {
-		if (source.size() == 0) {
-			// no piece to move
-			StdOut.println("no piece to move");
-			return;
-		}
 		if (dest.size() == 0 || dest.contains(source.get(0))) {
 			// regular move
 			dest.add(source.remove(source.size() - 1));
