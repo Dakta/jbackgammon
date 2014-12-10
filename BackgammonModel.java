@@ -109,15 +109,23 @@ public class BackgammonModel {
 			|| (player == this.getPlayer2()
 				&& dest > 18)) {
 			// make sure it's in the correct quadrant
-			if (this.getState().movesLeft.contains(dest)) {
+			Integer dist = 0; // if this doesn't get changed below, something seriously bad is hapened
+			if (player == this.getPlayer1()) {
+				dist = dest;
+			} else if (player == this.getPlayer2()) {
+				dist = 25 - dest;
+			}
+			if (this.getState().movesLeft.contains(dist)) {
 				// make sure they can move there
 				BackgammonState newState = new BackgammonState(this.getState());
 				// "use" the move
-				newState.movesLeft.remove(dest);
+				newState.movesLeft.remove(dist);
 				// move the piece
-				newState.move(newState.rails.get(player), newState.points.get(dest - 1));
-				// push the undo state
-				this.state.add(newState);			
+				if (newState.move(newState.rails.get(player), newState.points.get(dest - 1))) {
+					// if the move was valid
+					// push the undo state
+					this.state.add(newState);
+				}
 			}
 		}
 	}

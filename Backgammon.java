@@ -315,7 +315,7 @@ public class Backgammon {
 				// clicked on a rail
 				Color player = StdDraw.RED;
 				if (StdDraw.mouseY() < HEIGHT/2) {
-					// player 2 rail
+					// player 1 rail
 					player = model.getPlayer1();
 				} else {
 					// player 2 rail
