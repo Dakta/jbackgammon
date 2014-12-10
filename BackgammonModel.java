@@ -174,13 +174,17 @@ public class BackgammonModel {
 	public List<List<Color>> getPoints(){
 		return this.getState().points;
 	}
-	
+
+	public List<Color> getRail(Color player) {
+		return this.getState().rails.get(player);
+	}
+
 	public List<Color> getPlayer1Rail(){
-		return this.getState().rails.get(this.getState().player1);
+		return this.getRail(this.getState().player1);
 	}
 	
 	public List<Color> getPlayer2Rail(){
-		return this.getState().rails.get(this.getState().player2);
+		return this.getRail(this.getState().player2);
 	}
 	
 	public List<Color> getPlayer1Home(){

@@ -313,15 +313,20 @@ public class Backgammon {
 			
 			if (WIDTH/2 - 0.5*baseUnit < StdDraw.mouseX() && StdDraw.mouseX() < WIDTH/2 + 0.5*baseUnit) {
 				// clicked on a rail
+				Color player = StdDraw.RED;
 				if (StdDraw.mouseY() < HEIGHT/2) {
-					// player 1 rail
-					Double[] mousePos = getMouseUp();
-					model.enterFromRail(model.getPlayer1(), getPointFromPos(mousePos[0], mousePos[1]));
+					// player 2 rail
+					player = model.getPlayer1();
 				} else {
 					// player 2 rail
-					Double[] mousePos = getMouseUp();
-					model.enterFromRail(model.getPlayer2(), getPointFromPos(mousePos[0], mousePos[1]));
+					player = model.getPlayer2();
 				}
+				if (model.getRail(player).size() < 1) {
+					// ignore click on empty rail
+					continue;
+				}
+				Double[] mousePos = getMouseUp();
+				model.enterFromRail(player, getPointFromPos(mousePos[0], mousePos[1]));
 			} else if (StdDraw.mouseX() > baseUnit && StdDraw.mouseX() < 14 * baseUnit) {
 				// clicked on a point
 				int sourcePoint = getPointFromPos(StdDraw.mouseX(), StdDraw.mouseY());
