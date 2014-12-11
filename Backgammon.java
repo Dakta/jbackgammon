@@ -73,19 +73,19 @@ public class Backgammon {
 		// player 2 on top
 		x = 0.5*baseUnit;
 		y = HEIGHT; // top down
-		StdDraw.text(x, y, "W");
-		StdDraw.text(x, 0, "B");
+		StdDraw.text(x, y, "B");
+		StdDraw.text(x, 0, "W");
 		StdDraw.setPenColor(model.getPlayer1());
 		for (int i = 0; i < model.getPlayer1Home().size(); i++) {
-			y -= 0.5*baseUnit;
-			StdDraw.filledCircle(x, y, 0.5 * baseUnit);
+			y -= 0.15*baseUnit;
+			StdDraw.filledRectangle(x, y, 0.5 * baseUnit, 0.1 * baseUnit);
 		}
 		// player 1 on bottom
 		y = 0; // bottom up
 		StdDraw.setPenColor(model.getPlayer2());
 		for (int i = 0; i < model.getPlayer2Home().size(); i++) {
-			y += 0.5*baseUnit;
-			StdDraw.filledCircle(x, y, 0.5 * baseUnit);
+			y += 0.15*baseUnit;
+			StdDraw.filledRectangle(x, y, 0.5 * baseUnit, 0.1 * baseUnit);
 		}
 
 		
