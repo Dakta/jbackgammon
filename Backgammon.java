@@ -54,6 +54,7 @@ public class Backgammon {
 		// player 2 on top, player 1 on bottom
 		x = WIDTH/2;
 		y = HEIGHT/2;
+		StdDraw.setPenColor(StdDraw.WHITE);
 		StdDraw.text(x, y, "Rail");
 		StdDraw.setPenColor(model.getPlayer1());
 		for (int i = 0; i < model.getPlayer1Rail().size(); i++) {
@@ -72,7 +73,8 @@ public class Backgammon {
 		// player 2 on top
 		x = 0.5*baseUnit;
 		y = HEIGHT; // top down
-		StdDraw.text(x, y, "Rail");
+		StdDraw.text(x, y, "W");
+		StdDraw.text(x, 0, "B");
 		StdDraw.setPenColor(model.getPlayer1());
 		for (int i = 0; i < model.getPlayer1Home().size(); i++) {
 			y -= 0.5*baseUnit;
@@ -222,7 +224,7 @@ public class Backgammon {
 		StdDraw.setPenColor((i % 2 == 0 ? DARK_BROWN : LIGHT_BROWN));
 		StdDraw.filledPolygon(xi, yi);
 		StdDraw.setPenColor(StdDraw.WHITE);
-		StdDraw.text(x, y, ""+i);
+		// StdDraw.text(x, y, ""+i);
 		
 		// draw stack of pieces
 		for (int c = 0; c < model.getPoint(i).size(); c++) {
