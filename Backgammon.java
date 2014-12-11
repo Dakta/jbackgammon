@@ -99,7 +99,7 @@ public class Backgammon {
 		StdDraw.filledRectangle(18 * baseUnit, 10.5 * baseUnit, baseUnit,
 				0.5 * baseUnit);
 		StdDraw.setPenColor(StdDraw.BLACK);
-		StdDraw.text(18 * baseUnit, 10.5 * baseUnit, "Roll Dice");
+		StdDraw.text(18 * baseUnit, 10.5 * baseUnit, "Skip Turn");
 		
 		// Undo button
 		StdDraw.setPenColor(StdDraw.PINK);
@@ -299,16 +299,17 @@ public class Backgammon {
 				continue;
 
 			}
-			/*
+			
 			if (17*baseUnit <= StdDraw.mouseX() && StdDraw.mouseX() <= 19 *baseUnit
 						&& 9 * baseUnit <= StdDraw.mouseY() && 10 * baseUnit <= StdDraw.mouseY()) {
 				// if they click the dice button
-				model.rollDice();
+				model.nextTurn();
+				continue;
 				// keep track of number of moves left for current player
 				// decrement when player moves
 				// call model.nextTurn() when it reaches 0
 			}
-			*/	
+				
 			
 			
 			if (WIDTH/2 - 0.5*baseUnit < StdDraw.mouseX() && StdDraw.mouseX() < WIDTH/2 + 0.5*baseUnit) {

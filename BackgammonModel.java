@@ -130,21 +130,46 @@ public class BackgammonModel {
 		}
 	}
 	
+	public boolean canBearOff(Color player){
+		int count = 0;
+		if (player == this.getPlayer2()){
+			for (int i = 1; i < 7; i++){
+				if (this.getPoint(i).size() > 0) {
+					count += (BackgammonModel.getColor(this.getPoint(i)) == player) ? this.getPoint(i).size() : 0;
+				}
+			}
+			count += this.getPlayer2Home().size();
+				
+		} else if (player == this.getPlayer1()){
+			for (int i = 19; i < 25; i++){
+				if (this.getPoint(i).size() > 0) {
+					count += (BackgammonModel.getColor(this.getPoint(i)) == player) ? this.getPoint(i).size() : 0;
+				}
+			}
+			count += this.getPlayer1Home().size();
+		}		
+		return (count == 15);
+	}
+	
 	public void bearOff(Color player, int source) {
-		Integer dist = 0; // if this doesn't get changed below, something seriously bad is hapened
-		if (player == this.getPlayer1()) {
-			dist = 25 - source;
-		} else if (player == this.getPlayer2()) {
-			dist = source;
-		}
-		if (this.getState().movesLeft.contains(dist)) {
-			BackgammonState newState = new BackgammonState(this.getState());
-			// "use" the move
-			newState.movesLeft.remove(dist);
-			// move the piece
-			newState.move(newState.points.get(source - 1), newState.homes.get(player));
-			// push the undo state
-			this.state.add(newState);
+		if (canBearOff(player)){
+			Integer dist = 0; // if this doesn't get changed below, something seriously bad is hapened
+			if (player == this.getPlayer1()) {
+				dist = 25 - source;
+			} else if (player == this.getPlayer2()) {
+				dist = source;
+			}
+			if (this.getState().movesLeft.contains(dist)) {
+				BackgammonState newState = new BackgammonState(this.getState());
+				// "use" the move
+				newState.movesLeft.remove(dist);
+				// move the piece
+				newState.move(newState.points.get(source - 1), newState.homes.get(player));
+				// push the undo state
+				this.state.add(newState);
+			}
+		} else {
+		
 		}
 	}
 
