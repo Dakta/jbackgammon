@@ -77,14 +77,14 @@ public class Backgammon {
 		StdDraw.text(x, 0, "W");
 		StdDraw.setPenColor(model.getPlayer1());
 		for (int i = 0; i < model.getPlayer1Home().size(); i++) {
-			y -= 0.25*baseUnit;
+			y -= 0.15*baseUnit;
 			StdDraw.filledRectangle(x, y, 0.5 * baseUnit, 0.1 * baseUnit);
 		}
 		// player 1 on bottom
 		y = 0; // bottom up
 		StdDraw.setPenColor(model.getPlayer2());
 		for (int i = 0; i < model.getPlayer2Home().size(); i++) {
-			y += 0.25*baseUnit;
+			y += 0.15*baseUnit;
 			StdDraw.filledRectangle(x, y, 0.5 * baseUnit, 0.1 * baseUnit);
 		}
 
@@ -109,16 +109,7 @@ public class Backgammon {
 				0.5 * baseUnit);
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.text(21 * baseUnit, 10.5 * baseUnit, "Undo");
-		if (model.getPlayer1Home().size() == 15){
-			StdDraw.setPenColor(StdDraw.WHITE);
-			StdDraw.text(20 * baseUnit, 2 * baseUnit, "Black has won");
-				
-		}
-		if (model.getPlayer2Home().size() == 15){
-			StdDraw.setPenColor(StdDraw.WHITE);
-			StdDraw.text(20 * baseUnit, 2 * baseUnit, "White has won");
-				
-		}
+		
 		// dice
 		drawDice();
 		
@@ -361,13 +352,11 @@ public class Backgammon {
 								&& mousePos[1] > HEIGHT/2) {
 							// player 1
 							model.bearOff(model.getPlayer1(), sourcePoint);
-							
 							break;
 						} else if (model.getCurrentPlayer() == model.getPlayer2()
 									&& mousePos[1] < HEIGHT/2) {
 							// player 2
 							model.bearOff(model.getPlayer2(), sourcePoint);
-							
 							break;
 						}
 					} else {
@@ -379,7 +368,6 @@ public class Backgammon {
 			}
 
 //			model.nextTurn();
-			
 			if (model.getState().movesLeft.size() < 1) {
 				model.nextTurn();
 			}
