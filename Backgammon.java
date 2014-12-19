@@ -115,9 +115,7 @@ public class Backgammon {
 		
 		// draw moving piece under mouse
 		drawCurrentPiece();
-//		dice();
-//		StdOut.println(getPointFromPos(StdDraw.mouseX(), StdDraw.mouseY()));
-//		StdOut.println(""+StdDraw.mouseX()+ ", "+StdDraw.mouseY());
+
 		
 		
 		StdDraw.show(40);
@@ -224,7 +222,6 @@ public class Backgammon {
 		StdDraw.setPenColor((i % 2 == 0 ? DARK_BROWN : LIGHT_BROWN));
 		StdDraw.filledPolygon(xi, yi);
 		StdDraw.setPenColor(StdDraw.WHITE);
-		// StdDraw.text(x, y, ""+i);
 		
 		// draw stack of pieces
 		for (int c = 0; c < model.getPoint(i).size(); c++) {
@@ -297,7 +294,6 @@ public class Backgammon {
 					&& 9 * baseUnit <= StdDraw.mouseY() && 10 * baseUnit <= StdDraw.mouseY()) {
 				// if they click on the undo button
 				model.undoState();
-				StdOut.println("undo clicked");
 				continue;
 
 			}
